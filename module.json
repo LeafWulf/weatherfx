@@ -13,7 +13,7 @@
   "authors": [
     {
       "name": "winterwulf",
-      "url": "https://github.com/paulo-roger/weatherFX",
+      "url": "https://github.com/paulo-roger/weatherfx",
       "discord": "winterwulf#3118"
     }
   ],
@@ -37,7 +37,7 @@
       "path": "languages/en.json"
     }
   ],
-  "url": "This is auto replaced",
+  "url": "https://github.com/paulo-roger/weatherfx",
   "manifest": "This is auto replaced",
   "download": "This is auto replaced",
   "license": "LICENSE",
