@@ -1,20 +1,20 @@
 {
-  "id": "module",
-  "title": "New Module",
-  "description": "",
-  "version": "This is auto replaced",
+  "id": "weatherfx",
+  "title": "Weather FX",
+  "description": "Weather effects for Foundry VTT with a homebrew for D&D 5e",
+  "version": "1.0",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
   "compatibility": {
     "minimum": 10,
     "verified": 10,
-    "maximum": 11
+    "maximum": 10
   },
   "authors": [
     {
-      "name": "The League of Extraordinary FVTT Developers",
-      "url": "https://github.com/League-of-Foundry-Developers",
-      "discord": "discordID#0001"
+      "name": "winterwulf",
+      "url": "https://github.com/paulo-roger/weatherFX",
+      "discord": "winterwulf#3118"
     }
   ],
   "relationships": {
@@ -22,7 +22,7 @@
     "requires": []
   },
   "esmodules": [
-    "scripts/module.js"
+    "scripts/weatherfx.js"
   ],
   "scripts": [
     "scripts/lib/lib.js"
