@@ -1,5 +1,5 @@
 import { createEffect } from "./effect.js";
-import { registerSettings, cacheWfxSettings, enableSound, customSound, blizzardSound, rainSound, thunderstormSound, heavyRainSound, applyWeatherTo } from "./settings.js";
+import { registerSettings, cacheWfxSettings, enableSound, customSound, blizzardSound, rainSound, thunderstormSound, heavyRainSound, autoApply } from "./settings.js";
 
 function weatherEffects(effectCondition) {
     let item = game.actors.getName('Weather Effects').items.find(i => i.name === effectCondition.type)
@@ -108,9 +108,11 @@ Hooks.once('ready', async function () {
 });
 
 Hooks.on('createChatMessage', async function (message) {
-    let msgString = message.content.toLowerCase();
-    if (message.speaker.alias == `Today's Weather:`) {
-        checkWeather(msgString);     
+    if (autoApply) {
+        let msgString = message.content.toLowerCase();
+        if (message.speaker.alias == `Today's Weather:`) {
+            checkWeather(msgString);
+        }
     }
 });
 
@@ -141,8 +143,8 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 //  &&
                 // game.settings.get("", "enableWeatherFX"),
                 onClick: () => {
-                    let currentWeather = game.messages.filter(i => i.alias == `Today's Weather:`).sort((a, b) => b.data.timestamp - a.data.timestamp)[0].content.toLowerCase();
-                    checkWeather(currentWeather); 
+                    let currentWeather = game.messages.filter(i => i.alias == `Today's Weather:`).sort((a, b) => b.timestamp - a.timestamp)[0].content.toLowerCase();
+                    checkWeather(currentWeather);
                 },
             }
         );

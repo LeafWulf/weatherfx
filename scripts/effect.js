@@ -1,4 +1,4 @@
-import {blizzardSound, rainSound, thunderstormSound, heavyRainSound, applyWeatherTo} from "./settings.js";
+import {blizzardSound, rainSound, thunderstormSound, heavyRainSound} from "./settings.js";
 
 class Effect {
     constructor(name, type, hasSound, sound, effectsArray, filtersArray) {
