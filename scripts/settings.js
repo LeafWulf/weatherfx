@@ -1,12 +1,11 @@
 import { MODULE } from "./const.js"
 
+export let autoApply = true;
 export let enableSound = false;
-export let customSound = false;
 export let blizzardSound = 'modules/michaelghelfi/ambience/Snowing.ogg';
 export let rainSound = 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg';
 export let thunderstormSound  = 'modules/michaelghelfi/ambience/RainandThunder.ogg';
 export let heavyRainSound = 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg';
-export let autoApply = true;
 
 export function registerSettings() {
     game.settings.register(MODULE, 'autoApply', {
@@ -24,20 +23,7 @@ export function registerSettings() {
 
     game.settings.register(MODULE, 'enableSound', {
         name: 'Enable sound',
-        hint: `Play sound effects along with the visual weather effects (The default are sounds from the modules: Ivan Duch's Music Packs, Michael Ghelfi Studios Audio Pack, so you would need to install these modules as well or set your own custom sounds).`,
-        scope: 'world',
-        config: true,
-        type: Boolean,
-        default: false,
-        restricted: true,
-        onChange: () => {
-            cacheWfxSettings();
-        },
-    });
-
-    game.settings.register(MODULE, 'customSound', {
-        name: 'Custom sounds effects',
-        hint: 'Let you change the sounds effects for whatever you prefer.',
+        hint: `Play sound effects along with the visual weather effects (The default are sounds from the modules: Ivan Duch's Music Packs and Michael Ghelfi Studios Audio Pack, so you would need to install these modules as well or set your own custom sounds).`,
         scope: 'world',
         config: true,
         type: Boolean,
@@ -107,7 +93,6 @@ export function registerSettings() {
 
 export function cacheWfxSettings() {
     enableSound = game.settings.get(MODULE, 'enableSound');
-    customSound = game.settings.get(MODULE, 'customSound');
     blizzardSound = game.settings.get(MODULE, 'blizzardSound');
     rainSound = game.settings.get(MODULE, 'rainSound');
     thunderstormSound = game.settings.get(MODULE, 'thunderstormSound');

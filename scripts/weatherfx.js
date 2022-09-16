@@ -1,8 +1,10 @@
 import { createEffect } from "./effect.js";
-import { registerSettings, cacheWfxSettings, enableSound, customSound, blizzardSound, rainSound, thunderstormSound, heavyRainSound, autoApply } from "./settings.js";
+import { registerSettings, cacheWfxSettings, enableSound, autoApply } from "./settings.js";
+import { weatherRoll } from "./util.js"
+
 
 function weatherEffects(effectCondition) {
-    let item = game.actors.getName('Weather Effects').items.find(i => i.name === effectCondition.type)
+    //let item = game.actors.getName('Weather Effects').items.find(i => i.name === effectCondition.type)
 
     clearEffects();
 
@@ -18,13 +20,12 @@ function weatherEffects(effectCondition) {
             AudioHelper.play({ src: effectCondition.sound, volume: 0.8, loop: true }, true);
             canvas.scene.setFlag("weatherfx", "audio", effectCondition.sound);
         }
-
     }
 
     if (effectCondition.type == '')
         return;
     else
-        return weatherRoll(item);
+        return weatherRoll(effectCondition.type);
 }
 
 function clearEffects() {
@@ -35,10 +36,6 @@ function clearEffects() {
         if (sound.src !== src) continue;
         sound.stop();
     }
-}
-
-function weatherRoll(item) {
-    item.use();
 }
 
 function checkWeather(msgString) {

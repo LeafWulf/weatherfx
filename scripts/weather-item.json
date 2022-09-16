@@ -1,0 +1,98 @@
+[
+    {
+        "name": "Ashfall",
+        "description": "<p>Heavy white clouds of swirling smoke fill the sky, and it rains ash that coats everything in little flecks. A smell of burning wood or sulphur permeates the air.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
+        "save": {
+            "dc": null,
+            "ability": ""
+        }
+    },
+    {
+        "name": "Blizzard",
+        "description": "<p>At the end of every hour spend in a Blizzard, make a DC 12 Constitution saving. On failure, you take [[/r 3d4 #cold damage]] cold damage and gain one level of exhaustion. You make this check with advantage if you have proper gear.<p>All creatures are heavily obscured if they are more than 20 feet from you. All terrain is difficult terrain.</p>\n<p>Unpleasant to travel in. All travel speed is halved. If snow occurs for two days in row, all terrain is difficult terrain and wagon travel is impossible until one day without snow passes.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits).</p>\n<p>Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>\n<p>If you attempt to take a long rest without cover and heat, you must make a DC 15 Constitution saving throw gain the benefits for a long rest. If you fail by 5 or more, you gain an additional level of Exhaustion.</p>\n<p>Turbulent gusts sweep across the land.<br>Select a wind direction based on locale or roll a [[/r 1d4 #Wind Direction: 1 - North, 2 - East, 3 - South, 4 - West]].</p>\n<p>Flying creatures gain +10 movement speed when moving with the wind, and –10 movement speed when moving against it. All ranged weapon attacks have a –2 to attack rolls, and their range is reduced by half when shooting into the wind.</p>",
+        "save": {
+            "dc": 12,
+            "ability": "con"
+        }
+    },
+    {
+        "name": "Clear Skies",
+        "description": "<p>Clear bright light during day time, view of the stars and moon at night.</p>",
+        "save": {
+            "dc": null,
+            "ability": ""
+        }
+    },
+    {
+        "name": "Freezing Cold",
+        "description": "<p>If you attempt to take a long rest without cover and heat, you must make a DC 15 Constitution saving throw gain the benefits for a long rest. If you fail by 5 or more, you gain an additional level of Exhaustion.</p>",
+        "save": {
+            "dc": 15,
+            "ability": "con"
+        }
+    },
+    {
+        "name": "Heavy Clouds",
+        "description": "<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
+        "save": {
+            "dc": null,
+            "ability": ""
+        }
+    },
+    {
+        "name": "Heavy Rain",
+        "description": "<p>Same as rain, but the DC becomes 16 to benefit from a long rest without shelter and if Heavy Rain occurs two days in a row wagon travel becomes impossible until one day without rain occurs. May cause flooding. All fire damage rolls have a –4. Lightning and Cold damage rolls gain a +2.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
+        "save": {
+            "dc": 16,
+            "ability": "con"
+        }
+    },
+    {
+        "name": "High Winds",
+        "description": "<p>Turbulent gusts sweep across the land.<br>Select a wind direction based on locale or roll a [[/r 1d4 #Wind Direction: 1 - North, 2 - East, 3 - South, 4 - West]].</p>\n<p>Flying creatures gain +10 movement speed when moving with the wind, and –10 movement speed when moving against it. All ranged weapon attacks have a –2 to attack rolls, and their range is reduced by half when shooting into the wind.</p>",
+        "save": {
+            "dc": null,
+            "ability": ""
+        }
+    },
+    {
+        "name": "Light Clouds",
+        "description": "<p>Clear bright light during day time, view of the stars and moon at night.</p>",
+        "save": {
+            "dc": null,
+            "ability": ""
+        }
+    },
+    {
+        "name": "Rain",
+        "description": "<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 12 Constitution saving throw gain the benefits for a rest. All fire damage rolls have a –2.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
+        "save": {
+            "dc": 12,
+            "ability": "con"
+        }
+    },
+    {
+        "name": "Scorching Heat",
+        "description": "<p>Blistering heat that is unpleasant to travel in. Creatures that attempt to travel during day light hours require twice the ration of water, and creature that travel for 4 or more hours or engage in heavy activity for 1 or more hour during the day and do not immediately take a short or long rest under cover must make a DC 10 Constitution saving throw or gain a level of Exhaustion.</p>",
+        "save": {
+            "dc": 10,
+            "ability": "con"
+        }
+    },
+    {
+        "name": "Snow",
+        "description": "<p>Unpleasant to travel in. All travel speed is halved. If snow occurs for two days in row, all terrain is difficult terrain and wagon travel is impossible until one day without snow passes.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>\n<p>If you attempt to take a long rest without cover and heat, you must make a DC 15 Constitution saving throw gain the benefits for a long rest. If you fail by 5 or more, you gain an additional level of Exhaustion.</p>",
+        "save": {
+            "dc": null,
+            "ability": ""
+        }
+    },
+    {
+        "name": "Thunderstorm",
+        "description": "<p>Lightning flashes and thunder crashes. All creatures are partially obscured if they are more than 20 feet from you.</p>\n<p>If you travel for 4 or more hours during a Thunderstorm, roll a [[/r 2d100kh #On a 1, you are struck by a lightning bolt dealing 3d12 lightning damage.]]. On a 1, you are struck by a lightning bolt dealing [[/r 3d12 #lightning damage]] lightning damage.</p>\n<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 12 Constitution saving throw gain the benefits for a rest. All fire damage rolls have a –2.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>\n<p>Turbulent gusts sweep across the land.<br>Select a wind direction based on locale or roll a [[/r 1d4 #Wind Direction: 1 - North, 2 - East, 3 - South, 4 - West]].</p>\n<p>Flying creatures gain +10 movement speed when moving with the wind, and –10 movement speed when moving against it. All ranged weapon attacks have a –2 to attack rolls, and their range is reduced by half when shooting into the wind.</p>",
+        "save": {
+            "dc": null,
+            "ability": ""
+        }
+    }
+]
