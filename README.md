@@ -6,7 +6,7 @@
 
 # Weather FX
 
-Does something, probably
+Adicionar descrição do modulo...
 
 ## Changelog
 ### 1.0.0
