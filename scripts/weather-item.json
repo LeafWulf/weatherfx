@@ -5,7 +5,8 @@
         "save": {
             "dc": null,
             "ability": ""
-        }
+        },
+        "img": "images/ashfall.webp"
     },
     {
         "name": "Blizzard",
@@ -13,7 +14,8 @@
         "save": {
             "dc": 12,
             "ability": "con"
-        }
+        },
+        "img": "images/blizzard.webp"
     },
     {
         "name": "Clear Skies",
@@ -21,7 +23,8 @@
         "save": {
             "dc": null,
             "ability": ""
-        }
+        },
+        "img": "images/clearSky.webp"
     },
     {
         "name": "Freezing Cold",
@@ -29,7 +32,8 @@
         "save": {
             "dc": 15,
             "ability": "con"
-        }
+        },
+        "img": "images/freezingCold.webp"
     },
     {
         "name": "Heavy Clouds",
@@ -37,7 +41,8 @@
         "save": {
             "dc": null,
             "ability": ""
-        }
+        },
+        "img": "images/heavyClouds.webp"
     },
     {
         "name": "Heavy Rain",
@@ -45,7 +50,8 @@
         "save": {
             "dc": 16,
             "ability": "con"
-        }
+        },
+        "img": "images/heavyRain.webp"
     },
     {
         "name": "High Winds",
@@ -53,7 +59,8 @@
         "save": {
             "dc": null,
             "ability": ""
-        }
+        },
+        "img": "images/highWinds.webp"
     },
     {
         "name": "Light Clouds",
@@ -61,7 +68,8 @@
         "save": {
             "dc": null,
             "ability": ""
-        }
+        },
+        "img": "images/lightClouds.webp"
     },
     {
         "name": "Rain",
@@ -69,7 +77,8 @@
         "save": {
             "dc": 12,
             "ability": "con"
-        }
+        },
+        "img": "images/rain.webp"
     },
     {
         "name": "Scorching Heat",
@@ -77,7 +86,8 @@
         "save": {
             "dc": 10,
             "ability": "con"
-        }
+        },
+        "img": "images/scorchingHeat.webp"
     },
     {
         "name": "Snow",
@@ -85,7 +95,8 @@
         "save": {
             "dc": null,
             "ability": ""
-        }
+        },
+        "img": "images/snow.webp"
     },
     {
         "name": "Thunderstorm",
@@ -93,6 +104,16 @@
         "save": {
             "dc": null,
             "ability": ""
-        }
+        },
+        "img": "images/thunderstorm.webp"
+    },
+    {
+        "name": "Hail",
+        "description": "<p>Impossible to benefit from a long rest without shelter and if it occurs two days in a row wagon travel becomes impossible until one day without rain occurs. May cause flooding.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
+        "save": {
+            "dc": null,
+            "ability": ""
+        },
+        "img": "images/hail.webp"
     }
 ]

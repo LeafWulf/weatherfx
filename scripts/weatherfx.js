@@ -4,9 +4,8 @@ import { weatherRoll } from "./util.js"
 
 
 function weatherEffects(effectCondition) {
-    //let item = game.actors.getName('Weather Effects').items.find(i => i.name === effectCondition.type)
-
     clearEffects();
+    canvas.scene.setFlag("weatherfx", "active", "true");
 
     if (effectCondition.effectsArray.length > 0)
         Hooks.call('fxmaster.updateParticleEffects', effectCondition.effectsArray)
@@ -16,9 +15,9 @@ function weatherEffects(effectCondition) {
     }
 
     if (enableSound) {
+        canvas.scene.setFlag("weatherfx", "audio", effectCondition.sound);
         if (effectCondition.hasSound) {
             AudioHelper.play({ src: effectCondition.sound, volume: 0.8, loop: true }, true);
-            canvas.scene.setFlag("weatherfx", "audio", effectCondition.sound);
         }
     }
 
@@ -29,6 +28,7 @@ function weatherEffects(effectCondition) {
 }
 
 function clearEffects() {
+    canvas.scene.setFlag("weatherfx", "active", "false");
     let src = canvas.scene.getFlag("weatherfx", "audio");
     Hooks.call('fxmaster.updateParticleEffects', []);
     FXMASTER.filters.setFilters([]);
@@ -36,6 +36,11 @@ function clearEffects() {
         if (sound.src !== src) continue;
         sound.stop();
     }
+}
+
+function weatherTrigger(message) {
+    let msgString = message.toLowerCase();
+    checkWeather(msgString);
 }
 
 function checkWeather(msgString) {
@@ -63,15 +68,15 @@ function checkWeather(msgString) {
             case msgString.includes('snow'): return weatherEffects(createEffect('overcastSnow'));
         }
     }
-
     else if (msgString.includes('snow')) {
         switch (true) {
-            case msgString.includes('Large amount'): return weatherEffects(createEffect('snowFall'));
-            case msgString.includes('A light to moderate'): return weatherEffects(createEffect('lightSnow'));
+            case msgString.includes('large'): return weatherEffects(createEffect('snowFall'));
+            case msgString.includes('light'): return weatherEffects(createEffect('lightSnow'));
         }
     }
     else if (msgString.includes('flooding'))
         return weatherEffects(createEffect('thunderstorm'));
+
     else if (msgString.includes('blizzard'))
         return weatherEffects(createEffect('blizzard'));
 
@@ -92,6 +97,9 @@ function checkWeather(msgString) {
 
     else if (msgString.includes('drought'))
         return weatherEffects(createEffect('drought'));
+
+    else if (msgString.includes('hail'))
+        return weatherEffects(createEffect('hailStorm'));
 }
 
 Hooks.once("init", () => {
@@ -101,15 +109,17 @@ Hooks.once("init", () => {
 });
 
 Hooks.once('ready', async function () {
-    console.log('🐺 ==== hook ready')
+    if (canvas.scene.getFlag("weatherfx", "active"))
+        if (enableSound)
+            if (canvas.scene.getFlag("weatherfx", "audio") != "")
+                AudioHelper.play({ src: canvas.scene.getFlag("weatherfx", "audio"), volume: 0.8, loop: true }, true);
 });
 
 Hooks.on('createChatMessage', async function (message) {
-    if (autoApply) {
-        let msgString = message.content.toLowerCase();
-        if (message.speaker.alias == `Today's Weather:`) {
-            checkWeather(msgString);
-        }
+    if (message.speaker.alias == `Today's Weather:`) {
+        canvas.scene.setFlag("weatherfx", "currentWeather", message.content);
+        if (autoApply)
+            weatherTrigger(message.content);
     }
 });
 
@@ -128,6 +138,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 // game.settings.get("", "enableWeatherFX"),
                 onClick: () => {
                     clearEffects()
+                    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: "Weather effects for: " + canvas.scene.getFlag("weatherfx", "currentWeather") + " removed", whisper: ChatMessage.getWhisperRecipients("GM") });
                 },
             },
             {
@@ -140,8 +151,8 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 //  &&
                 // game.settings.get("", "enableWeatherFX"),
                 onClick: () => {
-                    let currentWeather = game.messages.filter(i => i.alias == `Today's Weather:`).sort((a, b) => b.timestamp - a.timestamp)[0].content.toLowerCase();
-                    checkWeather(currentWeather);
+                    let currentWeather = canvas.scene.getFlag("weatherfx", "currentWeather")
+                    weatherTrigger(currentWeather);
                 },
             }
         );

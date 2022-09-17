@@ -1,4 +1,4 @@
-import {blizzardSound, rainSound, thunderstormSound, heavyRainSound} from "./settings.js";
+import { blizzardSound, rainSound, thunderstormSound, heavyRainSound } from "./settings.js";
 
 class Effect {
     constructor(name, type, hasSound, sound, effectsArray, filtersArray) {
@@ -30,7 +30,8 @@ export function createEffect(effectName) {
         case 'overcastFreezing': return effectCondition = new Effect(effectName, 'Heavy Clouds', false, '', [lightRain, grayClouds], [coldClimate])
         case 'overcastDrizzle': return effectCondition = new Effect(effectName, 'Heavy Clouds', false, '', [lightRain, grayClouds], [])
         case 'overcastSnow': return effectCondition = new Effect(effectName, 'Freezing Cold', false, '', [lightSnow, snowClouds], [coldClimate])
-        case 'drought': return effectCondition = new Effect(effectName, '', false, '', [], [hotClimate])
+        case 'drought': return effectCondition = new Effect(effectName, '', false, '', [], [])
+        case 'hail': return effectCondition = new Effect(effectName, 'Hail', false, eval(effectName + 'Sound'), [hail, heavyRain, heavyClouds, moderateFog], [darkClimate])
     }
 }
 
@@ -225,8 +226,8 @@ const lightFog = {
 const snowFall = {
     "type": "snow",
     "options": {
-        "scale": 1,
-        "direction": 65,
+        "scale": 0.5,
+        "direction": 180,
         "speed": 0.1,
         "lifetime": 0.5,
         "density": 0.5,
@@ -239,8 +240,8 @@ const snowFall = {
 const lightSnow = {
     "type": "snow",
     "options": {
-        "scale": 1,
-        "direction": 65,
+        "scale": 0.5,
+        "direction": 180,
         "speed": 0.1,
         "lifetime": 0.5,
         "density": 0.025,
@@ -283,5 +284,19 @@ const lightning = {
         "frequency": 1000,
         "spark_duration": 500,
         "brightness": 1.3
+    }
+}
+const hail = {
+    "type": "snowstorm",
+    "options": {
+        "scale": 3,
+        "direction": 60,
+        "speed": 1.2,
+        "lifetime": 0.1,
+        "density": 0.05,
+        "tint": {
+            "apply": true,
+            "value": "#bee0ee"
+        }
     }
 }

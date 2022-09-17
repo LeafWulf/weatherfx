@@ -6,7 +6,7 @@ export function removeTags(str) {
     else
         str = str.toString();
     return str.replace(/(<([^>]+)>)/ig, '');
-}/*  */
+}
 
 export function getTemp(string) {
     let input = ''
@@ -27,22 +27,16 @@ export async function weatherRoll(item) {
     if (weather.save.dc != null) {
         saveButton = `<div class="card-buttons">
                     <button data-action="save" data-ability=${weather.save.ability}>
-                        Saving Throw DC ${weather.save.dc} ${weather.save.ability}
-                    </button>
-                    </div>`
+                    Saving Throw DC ${weather.save.dc} ${weather.save.ability}
+                    </button></div>`
     }
-    let msgContent = `<div class="dnd5e chat-card item-card">
-                    <header class="card-header flexrow">
-                        <img src="" title=${weather.name} width="36" height="36">
-                        <h3 class="item-name">${weather.name}</h3>
-                    </header>
-                    <div class="card-content">${weather.description}
-                    </div>
-                    ${saveButton}    
-                    <footer class="card-footer">
-                    </footer>
-                    </div>`
-    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: msgContent })
+    let msgContent = `<div class="dnd5e chat-card item-card"><header class="card-header flexrow">
+                    <img src='${MODULE_DIR}/${weather.img}' title=${weather.name} width="36" height="36">
+                    <h3 class="item-name">${weather.name}</h3></header>
+                    <div class="card-content">${weather.description}</div>
+                    ${saveButton}<footer class="card-footer"></footer></div>`
+    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: msgContent,
+    whisper: ChatMessage.getWhisperRecipients("GM") })
 }
 
 export function getItemDesc() {
@@ -61,7 +55,6 @@ export function getItemDesc() {
             }
         });
     });
-
     fileJson = JSON.stringify(itemDescArray)
     var blob = new Blob([fileJson], { type: 'text/plain' });
     var file = new File([blob], 'weather-item.json', { type: "text/plain" });
