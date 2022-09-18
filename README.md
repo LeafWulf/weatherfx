@@ -11,6 +11,7 @@ Weather FX also provides weather conditions according to the current weather, ba
 
 ## Functions
 With the buttons added to the controls on the right side of the screen the GM can either remove or apply Weather FX.
+
 ![functions](./readme/functions.png)
 
 ## Settings
@@ -19,6 +20,7 @@ Self explainable, you can have Weather FX auto apply on, thus Weather effects wi
 
 **Enable Sound**
 Weather FX also play sounds if you have this option on. The defaults sounds come from the modules Ivan Duch's Music Packs and Michael Ghelfi Studios Audio Pack, although you can customize these in the settings bellow.
+
 ![settings](readme/settings.png)
 
 ## Known Issues
