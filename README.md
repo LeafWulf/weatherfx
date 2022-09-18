@@ -23,6 +23,15 @@ Weather FX also play sounds if you have this option on. The defaults sounds come
 
 ![settings](readme/settings.png)
 
+## Dependencies
+1. [FX Master](https://foundryvtt.com/packages/fxmaster)
+2. [Weather Control](https://foundryvtt.com/packages/weather-control)
+
+**Optional**
+1. [Ivan Duch's Music Packs](https://foundryvtt.com/packages/ivan-duch-music-packs)
+2. [Michael Ghelfi Studios Audio Pack](https://foundryvtt.com/packages/michaelghelfi)
+
+
 ## Known Issues
 Only supports Weather Control in English, this shall be fixed soon.
 
