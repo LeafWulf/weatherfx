@@ -38,7 +38,7 @@ Intial release
 
 ## Donations
 The module is totally free and will remain this way.  
-I am unemployed, though. So every little help counts.
+I am unemployed, though. So every little help counts.  
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J0EPXAR)
 
 ## Attributions
