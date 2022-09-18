@@ -27,7 +27,7 @@ Weather FX also play sounds if you have this option on. The defaults sounds come
 Only supports Weather Control in English, this shall be fixed soon.
 
 ## Feedback
-You can create an issue here: [Issues](/issues)
+You can create an issue here: [Issues](../../issues)
 
 ## Changelog
 ### 1.0.0
