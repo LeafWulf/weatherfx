@@ -33,10 +33,13 @@ You can create an issue here: [Issues](../../issues)
 ### 1.0.0
 Intial release
 
-## Attributions
-The Oxygen Team, KDE;, LGPL <https://www.gnu.org/copyleft/lgpl.html>, via Wikimedia Commons
+## Special Thanks
+`Peterson`, ``Zhell``, ``MisterHims``, ``Freeze`` and `honeybadger`
 
 ## Donations
-The module is totally free and will remain this way.
+The module is totally free and will remain this way.  
 I am unemployed, though. So every little help counts.
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J0EPXAR)
+
+## Attributions
+The Oxygen Team, KDE;, LGPL <https://www.gnu.org/copyleft/lgpl.html>, via Wikimedia Commons
