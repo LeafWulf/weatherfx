@@ -15,11 +15,23 @@
       "name": "winterwulf",
       "url": "https://github.com/paulo-roger/weatherfx",
       "discord": "winterwulf#3118"
+      "ko-fi": "odragaoverde"
     }
   ],
   "relationships": {
     "systems": [],
-    "requires": []
+    "requires": [
+    {
+        "id": "fxmaster",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "weather-control",
+        "type": "module",
+        "compatibility": {}
+      }
+    ]
   },
   "esmodules": [
     "scripts/weatherfx.js"
