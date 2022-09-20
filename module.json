@@ -52,8 +52,9 @@
   "url": "https://github.com/paulo-roger/weatherfx",
   "manifest": "This is auto replaced",
   "download": "This is auto replaced",
-  "license": "https://github.com/paulo-roger/weatherfx/LICENSE",
-  "readme": "https://github.com/paulo-roger/weatherfx/README.md",
+  "license": "https://github.com/paulo-roger/weatherfx/blob/master/LICENSE",
+  "readme": "https://github.com/paulo-roger/weatherfx/blob/master/README.md",
+  "bugs": "https://github.com/paulo-roger/weatherfx/issues",
   "media": [
     {
       "type": "icon",
