@@ -1,42 +1,62 @@
 import { createEffect } from "./effect.js";
 import { registerSettings, cacheWfxSettings, enableSound, autoApply } from "./settings.js";
-import { weatherRoll } from "./util.js"
+import { MODULE, MODULE_DIR, JSON_ITEM } from "./const.js";
 
+Hooks.once("init", () => {
+    // registerWrappers();
+    registerSettings();
+    cacheWfxSettings();
+});
 
-function weatherEffects(effectCondition) {
-    clearEffects();
-    canvas.scene.setFlag("weatherfx", "active", "true");
+Hooks.once('ready', async function () {
+    if (canvas.scene.getFlag("weatherfx", "active"))
+        if (enableSound)
+            if (canvas.scene.getFlag("weatherfx", "audio") != "")
+                AudioHelper.play({ src: canvas.scene.getFlag("weatherfx", "audio"), volume: 0.8, loop: true }, true);
+});
 
-    if (effectCondition.effectsArray.length > 0)
-        Hooks.call('fxmaster.updateParticleEffects', effectCondition.effectsArray)
-
-    if (effectCondition.filtersArray.length > 0) {
-        FXMASTER.filters.setFilters(effectCondition.filtersArray)
+Hooks.on('createChatMessage', async function (message) {
+    if (message.speaker.alias == `Today's Weather:`) {
+        canvas.scene.setFlag("weatherfx", "currentWeather", message.content);
+        if (autoApply)
+            weatherTrigger(message.content);
     }
+});
 
-    if (enableSound) {
-        canvas.scene.setFlag("weatherfx", "audio", effectCondition.sound);
-        if (effectCondition.hasSound) {
-            AudioHelper.play({ src: effectCondition.sound, volume: 0.8, loop: true }, true);
-        }
-    }
-
-    if (effectCondition.type == '')
-        return;
-    else
-        return weatherRoll(effectCondition.type);
-}
-
-function clearEffects() {
-    canvas.scene.setFlag("weatherfx", "active", "false");
-    let src = canvas.scene.getFlag("weatherfx", "audio");
-    Hooks.call('fxmaster.updateParticleEffects', []);
-    FXMASTER.filters.setFilters([]);
-    for (let [key, sound] of game.audio.playing) {
-        if (sound.src !== src) continue;
-        sound.stop();
-    }
-}
+Hooks.on("getSceneControlButtons", (controls, b, c) => {
+    controls
+        .find((c) => c.name == "token")
+        .tools.push(
+            {
+                name: "clearWeather",
+                title: "Clear Weather",
+                icon: "fas fa-cloud-slash",
+                button: true,
+                visible:
+                    game.user.isGM,
+                //  &&
+                // game.settings.get("", "enableWeatherFX"),
+                onClick: () => {
+                    clearEffects()
+                    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: "Weather effects for: " + canvas.scene.getFlag("weatherfx", "currentWeather") + " removed", whisper: ChatMessage.getWhisperRecipients("GM") });
+                },
+            },
+            {
+                name: "applyWeatherFX",
+                title: "Apply Weather FX",
+                icon: "fas fa-cloud",
+                button: true,
+                visible:
+                    game.user.isGM,
+                //  &&
+                // game.settings.get("", "enableWeatherFX"),
+                onClick: () => {
+                    let currentWeather = canvas.scene.getFlag("weatherfx", "currentWeather")
+                    weatherTrigger(currentWeather);
+                },
+            }
+        );
+});
 
 function weatherTrigger(message) {
     let msgString = message.toLowerCase();
@@ -102,58 +122,63 @@ function checkWeather(msgString) {
         return weatherEffects(createEffect('hailStorm'));
 }
 
-Hooks.once("init", () => {
-    // registerWrappers();
-    registerSettings();
-    cacheWfxSettings();
-});
+function weatherEffects(effectCondition) {
+    clearEffects();
+    canvas.scene.setFlag("weatherfx", "active", "true");
 
-Hooks.once('ready', async function () {
-    if (canvas.scene.getFlag("weatherfx", "active"))
-        if (enableSound)
-            if (canvas.scene.getFlag("weatherfx", "audio") != "")
-                AudioHelper.play({ src: canvas.scene.getFlag("weatherfx", "audio"), volume: 0.8, loop: true }, true);
-});
+    if (effectCondition.effectsArray.length > 0)
+        Hooks.call('fxmaster.updateParticleEffects', effectCondition.effectsArray)
 
-Hooks.on('createChatMessage', async function (message) {
-    if (message.speaker.alias == `Today's Weather:`) {
-        canvas.scene.setFlag("weatherfx", "currentWeather", message.content);
-        if (autoApply)
-            weatherTrigger(message.content);
+    if (effectCondition.filtersArray.length > 0) {
+        FXMASTER.filters.setFilters(effectCondition.filtersArray)
     }
-});
 
-Hooks.on("getSceneControlButtons", (controls, b, c) => {
-    controls
-        .find((c) => c.name == "token")
-        .tools.push(
-            {
-                name: "clearWeather",
-                title: "Clear Weather",
-                icon: "fas fa-cloud-slash",
-                button: true,
-                visible:
-                    game.user.isGM,
-                //  &&
-                // game.settings.get("", "enableWeatherFX"),
-                onClick: () => {
-                    clearEffects()
-                    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: "Weather effects for: " + canvas.scene.getFlag("weatherfx", "currentWeather") + " removed", whisper: ChatMessage.getWhisperRecipients("GM") });
-                },
-            },
-            {
-                name: "applyWeatherFX",
-                title: "Apply Weather FX",
-                icon: "fas fa-cloud",
-                button: true,
-                visible:
-                    game.user.isGM,
-                //  &&
-                // game.settings.get("", "enableWeatherFX"),
-                onClick: () => {
-                    let currentWeather = canvas.scene.getFlag("weatherfx", "currentWeather")
-                    weatherTrigger(currentWeather);
-                },
-            }
-        );
-});
+    if (enableSound) {
+        canvas.scene.setFlag("weatherfx", "audio", effectCondition.sound);
+        if (effectCondition.hasSound) {
+            AudioHelper.play({ src: effectCondition.sound, volume: 0.8, loop: true }, true);
+        }
+    }
+
+    if (effectCondition.type == '')
+        return;
+    else
+        return weatherRoll(effectCondition.type);
+}
+
+async function weatherRoll(item) {
+    // item.use();
+    let weatherArray = await jsonItem();
+    let weather = weatherArray.find(i => i.name === item)
+    let saveButton = ''
+    if (weather.save.dc != null) {
+        saveButton = `<div class="card-buttons">
+                    <button data-action="save" data-ability=${weather.save.ability}>
+                    Saving Throw DC ${weather.save.dc} ${weather.save.ability}
+                    </button></div>`
+    }
+    let msgContent = `<div class="dnd5e chat-card item-card"><header class="card-header flexrow">
+                    <img src='${MODULE_DIR}/${weather.img}' title=${weather.name} width="36" height="36">
+                    <h3 class="item-name">${weather.name}</h3></header>
+                    <div class="card-content">${weather.description}</div>
+                    ${saveButton}<footer class="card-footer"></footer></div>`
+    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: msgContent,
+    whisper: ChatMessage.getWhisperRecipients("GM") })
+}
+
+async function jsonItem() {
+    let file = await fetch(JSON_ITEM);
+    let array = await file.json();
+    return array;
+}
+
+function clearEffects() {
+    canvas.scene.setFlag("weatherfx", "active", "false");
+    let src = canvas.scene.getFlag("weatherfx", "audio");
+    Hooks.call('fxmaster.updateParticleEffects', []);
+    FXMASTER.filters.setFilters([]);
+    for (let [key, sound] of game.audio.playing) {
+        if (sound.src !== src) continue;
+        sound.stop();
+    }
+}
