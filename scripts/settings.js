@@ -91,6 +91,7 @@ export function registerSettings() {
     });
 }
 
+// function that get the settings options and assign to the variables
 export function cacheWfxSettings() {
     enableSound = game.settings.get(MODULE, 'enableSound');
     blizzardSound = game.settings.get(MODULE, 'blizzardSound');
