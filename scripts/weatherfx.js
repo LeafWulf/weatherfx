@@ -4,16 +4,26 @@ import { MODULE, MODULE_DIR, JSON_ITEM } from "./const.js";
 
 let dnd5e = false
 
+//Compatibility with v9
+let fvttVersion
+let particleWeather = 'fxmaster.updateParticleEffects'
+
 // Hook that trigger once when the game is initiated. Register and cache settings.
 Hooks.once("init", () => {
     // registerWrappers();
-    checkSystem(game.system.id);
+    checkSystem(game.system.id); //check if dnd5e
     registerSettings();
     cacheWfxSettings();
 });
 
 // Hook that triggers when the game is ready. Check if there is a weather effect been played, then check if sound is enabled and restart the sound that should be played.
 Hooks.once('ready', async function () {
+    fvttVersion = parseInt(game.version)
+    console.log("🐺 ==================== FoundryVTT Version: ", fvttVersion)
+    //compatibility with v9
+    if (fvttVersion < 10) {
+        particleWeather = 'fxmaster.updateWeather'
+    } 
     if (canvas.scene.getFlag("weatherfx", "active"))
         if (enableSound)
             if (canvas.scene.getFlag("weatherfx", "audio") != "")
@@ -22,6 +32,9 @@ Hooks.once('ready', async function () {
 
 // Hook on every created message, if this is a message created with the alias "Today's Weather", then trigger the Weather FX part. 
 Hooks.on('createChatMessage', async function (message) {
+    if (fvttVersion < 10) //compatibility with v9
+        message = message.data
+    console.log(message)
     if (message.speaker.alias == `Today's Weather:`) {
         canvas.scene.setFlag("weatherfx", "currentWeather", message.content);
         if (autoApply)
@@ -37,7 +50,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
             {
                 name: "clearWeather",
                 title: "Clear Weather",
-                icon: "fas fa-cloud-slash",
+                icon: "fas fa-tint-slash",
                 button: true,
                 visible:
                     game.user.isGM,
@@ -51,7 +64,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
             {
                 name: "applyWeatherFX",
                 title: "Apply Weather FX",
-                icon: "fas fa-cloud",
+                icon: "fas fa-tint",
                 button: true,
                 visible:
                     game.user.isGM,
@@ -142,7 +155,7 @@ function weatherEffects(effectCondition) {
     canvas.scene.setFlag("weatherfx", "active", "true");
 
     if (effectCondition.effectsArray.length > 0)
-        Hooks.call('fxmaster.updateParticleEffects', effectCondition.effectsArray)
+        Hooks.call(particleWeather, effectCondition.effectsArray)
 
     if (effectCondition.filtersArray.length > 0) {
         FXMASTER.filters.setFilters(effectCondition.filtersArray)
@@ -193,7 +206,7 @@ async function jsonItem() {
 function clearEffects() {
     canvas.scene.setFlag("weatherfx", "active", "false");
     let src = canvas.scene.getFlag("weatherfx", "audio");
-    Hooks.call('fxmaster.updateParticleEffects', []);
+    Hooks.call(particleWeather, []);
     FXMASTER.filters.setFilters([]);
     for (let [key, sound] of game.audio.playing) {
         if (sound.src !== src) continue;

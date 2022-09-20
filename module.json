@@ -1,13 +1,16 @@
 {
+  "name": "weatherfx",
   "id": "weatherfx",
   "title": "Weather FX",
   "description": "Weather effects for Foundry VTT with a homebrew for D&D 5e",
   "version": "1.0",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
+  "minimumCoreVersion": "9",
+  "compatibleCoreVersion": "9",
   "compatibility": {
-    "minimum": 10,
-    "verified": 10,
+    "minimum": 9,
+    "verified": 9,
     "maximum": 10
   },
   "authors": [
