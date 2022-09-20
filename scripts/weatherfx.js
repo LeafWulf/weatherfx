@@ -1,10 +1,13 @@
 import { createEffect } from "./effect.js"; //import function that create the effects
-import { registerSettings, cacheWfxSettings, enableSound, autoApply } from "./settings.js"; //import settings variables and function that register those settings.
+import { registerSettings, cacheWfxSettings, enableSound, autoApply, enableHB } from "./settings.js"; //import settings variables and function that register those settings.
 import { MODULE, MODULE_DIR, JSON_ITEM } from "./const.js";
+
+let dnd5e = false
 
 // Hook that trigger once when the game is initiated. Register and cache settings.
 Hooks.once("init", () => {
     // registerWrappers();
+    checkSystem(game.system.id);
     registerSettings();
     cacheWfxSettings();
 });
@@ -61,6 +64,11 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
             }
         );
 });
+
+function checkSystem(system) {
+if (system === 'dnd5e') 
+    dnd5e = true
+}
 
 // Trigger weather fx chain of events. 1st it transforms the whole message to lowercase so it's easier to check the cases without worrying for capital letters. 2nd start the check weather function, that checks the string for which weather was generated.
 function weatherTrigger(message) {
@@ -147,7 +155,7 @@ function weatherEffects(effectCondition) {
         }
     }
 
-    if (effectCondition.type == '')
+    if (effectCondition.type == '' || !dnd5e || !enableHB)
         return;
     else
         return weatherRoll(effectCondition.type);
