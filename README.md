@@ -40,7 +40,13 @@ You can create an issue here: [Issues](../../issues)
 
 ## Changelog
 ### 1.0.0
-Intial release
+- Intial release
+### 1.1.0
+- **Now compatible with FVTT v9**
+- You can chose not to use weather chat conditions
+### 1.1.1
+- Fixed problem that images were not packed with the module.
+- Changed the control icons (sun remove weather fx, sun-rain to apply weather fx)
 
 ## Special Thanks
 `Peterson`, ``Zhell``, ``MisterHims``, ``Freeze`` and `honeybadger`
