@@ -1,13 +1,15 @@
-import { createEffect } from "./effect.js";
-import { registerSettings, cacheWfxSettings, enableSound, autoApply } from "./settings.js";
+import { createEffect } from "./effect.js"; //import function that create the effects
+import { registerSettings, cacheWfxSettings, enableSound, autoApply } from "./settings.js"; //import settings variables and function that register those settings.
 import { MODULE, MODULE_DIR, JSON_ITEM } from "./const.js";
 
+// Hook that trigger once when the game is initiated. Register and cache settings.
 Hooks.once("init", () => {
     // registerWrappers();
     registerSettings();
     cacheWfxSettings();
 });
 
+// Hook that triggers when the game is ready. Check if there is a weather effect been played, then check if sound is enabled and restart the sound that should be played.
 Hooks.once('ready', async function () {
     if (canvas.scene.getFlag("weatherfx", "active"))
         if (enableSound)
@@ -15,6 +17,7 @@ Hooks.once('ready', async function () {
                 AudioHelper.play({ src: canvas.scene.getFlag("weatherfx", "audio"), volume: 0.8, loop: true }, true);
 });
 
+// Hook on every created message, if this is a message created with the alias "Today's Weather", then trigger the Weather FX part. 
 Hooks.on('createChatMessage', async function (message) {
     if (message.speaker.alias == `Today's Weather:`) {
         canvas.scene.setFlag("weatherfx", "currentWeather", message.content);
@@ -23,6 +26,7 @@ Hooks.on('createChatMessage', async function (message) {
     }
 });
 
+// This add the control buttons so GM can control 'clear weather effects' or 'apply weather effects'
 Hooks.on("getSceneControlButtons", (controls, b, c) => {
     controls
         .find((c) => c.name == "token")
@@ -58,11 +62,13 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
         );
 });
 
+// Trigger weather fx chain of events. 1st it transforms the whole message to lowercase so it's easier to check the cases without worrying for capital letters. 2nd start the check weather function, that checks the string for which weather was generated.
 function weatherTrigger(message) {
     let msgString = message.toLowerCase();
     checkWeather(msgString);
 }
 
+// checks the string for which weather was generated, create the effect and passes it as argument for Weather Effects function.
 function checkWeather(msgString) {
     if (msgString.includes('rain')) {
         if (msgString.includes('heavy') || msgString.includes('monsoon')) {
@@ -122,6 +128,7 @@ function checkWeather(msgString) {
         return weatherEffects(createEffect('hailStorm'));
 }
 
+// This function apply weather effects to the canvas, but first cleans any effects that are currently applied.
 function weatherEffects(effectCondition) {
     clearEffects();
     canvas.scene.setFlag("weatherfx", "active", "true");
@@ -146,6 +153,7 @@ function weatherEffects(effectCondition) {
         return weatherRoll(effectCondition.type);
 }
 
+// roll to the chat the conditions, dnd 5e homebrew
 async function weatherRoll(item) {
     // item.use();
     let weatherArray = await jsonItem();
@@ -166,12 +174,14 @@ async function weatherRoll(item) {
     whisper: ChatMessage.getWhisperRecipients("GM") })
 }
 
+// Read the json weather 'item' file.
 async function jsonItem() {
     let file = await fetch(JSON_ITEM);
     let array = await file.json();
     return array;
 }
 
+// remove all the current fx on the canvas, also stops all the sounds effects that matches the flag weatherfx.audio
 function clearEffects() {
     canvas.scene.setFlag("weatherfx", "active", "false");
     let src = canvas.scene.getFlag("weatherfx", "audio");

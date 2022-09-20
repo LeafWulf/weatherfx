@@ -1,5 +1,6 @@
-import { blizzardSound, rainSound, thunderstormSound, heavyRainSound } from "./settings.js";
+import { blizzardSound, rainSound, thunderstormSound, heavyRainSound } from "./settings.js"; //imports settings variables, necessary because they go inside eval(effectName + 'Sound')
 
+// Weather Effect class
 class Effect {
     constructor(name, type, hasSound, sound, effectsArray, filtersArray) {
         this.name = name
@@ -11,6 +12,7 @@ class Effect {
     }
 }
 
+// Function that create the weather effect with the proper sound effects, weather 'item' names to place in the chat and fxmaster particles and filters
 export function createEffect(effectName) {
     let effectCondition = {};
     switch (effectName) {
