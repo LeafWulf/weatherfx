@@ -45,6 +45,9 @@
   "styles": [
     "styles/module.css"
   ],
+  "includes": [
+    "./images/**"
+],
   "languages": [
     {
       "lang": "en",
