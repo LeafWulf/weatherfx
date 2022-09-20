@@ -50,7 +50,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
             {
                 name: "clearWeather",
                 title: "Clear Weather",
-                icon: "fas fa-tint-slash",
+                icon: "fas fa-sun",
                 button: true,
                 visible:
                     game.user.isGM,
@@ -64,7 +64,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
             {
                 name: "applyWeatherFX",
                 title: "Apply Weather FX",
-                icon: "fas fa-tint",
+                icon: "fas fa-cloud-sun-rain",
                 button: true,
                 visible:
                     game.user.isGM,
