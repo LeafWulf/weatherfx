@@ -23,20 +23,36 @@ Hooks.once('ready', async function () {
     //compatibility with v9
     if (fvttVersion < 10) {
         particleWeather = 'fxmaster.updateWeather'
-    } 
+    }
+});
+
+Hooks.on('canvasReady', async function () {
+    // console.log("🐺 ==================== canvas ready")
     if (canvas.scene.getFlag("weatherfx", "active"))
         if (enableSound)
             if (canvas.scene.getFlag("weatherfx", "audio") != "")
                 AudioHelper.play({ src: canvas.scene.getFlag("weatherfx", "audio"), volume: 0.8, loop: true }, true);
-});
+    if (!canvas.scene.getFlag("weatherfx", "active"))
+        clearEffects();
+})
+
+Hooks.once('renderWeatherApplication', async function (app, html, data) {
+    if (!isChatOutputOn()) {
+        noChatOutputDialog()
+    }
+    // console.log("🐺 ==================== message object", data)
+    // console.log("🐺 ==================== message html", html)
+    // console.log("🐺 ==================== message app", app)
+
+})
 
 // Hook on every created message, if this is a message created with the alias "Today's Weather", then trigger the Weather FX part. 
-Hooks.on('createChatMessage', async function (message) {
+Hooks.on('createChatMessage', async function (message, html, data) {
     if (fvttVersion < 10) //compatibility with v9
         message = message.data
-    console.log(message)
     if (message.speaker.alias == `Today's Weather:`) {
-        canvas.scene.setFlag("weatherfx", "currentWeather", message.content);
+        // canvas.scene.setFlag("weatherfx", "currentWeather", message.content);
+        await game.settings.set(MODULE, "currentWeather", message.content);
         if (autoApply)
             weatherTrigger(message.content);
     }
@@ -58,7 +74,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 // game.settings.get("", "enableWeatherFX"),
                 onClick: () => {
                     clearEffects()
-                    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: "Weather effects for: " + canvas.scene.getFlag("weatherfx", "currentWeather") + " removed", whisper: ChatMessage.getWhisperRecipients("GM") });
+                    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: "Weather effects for: " + game.settings.get("weatherfx", "currentWeather") + " removed", whisper: ChatMessage.getWhisperRecipients("GM") });
                 },
             },
             {
@@ -71,16 +87,60 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 //  &&
                 // game.settings.get("", "enableWeatherFX"),
                 onClick: () => {
-                    let currentWeather = canvas.scene.getFlag("weatherfx", "currentWeather")
-                    weatherTrigger(currentWeather);
+                    if (isChatOutputOn()) {
+                        let currentWeather = game.settings.get("weatherfx", "currentWeather")
+                        weatherTrigger(currentWeather);
+                    }
+                    else noChatOutputDialog()
+
                 },
             }
         );
 });
 
+function isChatOutputOn() {
+    let outputWeatherChat = game.settings.get('weather-control', 'outputWeatherChat')
+    // let precipitation = app.weatherTracker.weatherData.precipitation
+    if (!outputWeatherChat) {
+        const errorMessage = "Weather FX cannot initialize and requires Weather Control 'Output weather to chat?' setting checked in order to get the current weather and apply effects to the current canvas.";
+        console.error(errorMessage);
+        ui.notifications.error(errorMessage);
+    }
+    return outputWeatherChat
+}
+
+function noChatOutputDialog() {
+
+    new Dialog({
+        title: "No weather data!",
+        content: "<p>Please activate <b>Weather Control</b> output to chat, otherwise Weather FX can't access its data</p><p><br></p>",
+        buttons: {
+            yes: {
+                icon: "<i class='fas fa-check'></i>",
+                label: "Activate",
+                callback: async () => {
+                    await game.settings.set('weather-control', 'outputWeatherChat', true)
+                    await game.settings.set("weatherfx", "currentWeather", game.settings.get("weather-control", "weatherData").precipitation)
+                    // let currentWeather = game.settings.get("weatherfx", "currentWeather")
+                    // weatherTrigger(currentWeather);
+                }
+            },
+            no: {
+                icon: "<i class='fas fa-times'></i>",
+                label: "No, I won't",
+                callback: async () => {
+                    return
+                }
+            },
+        },
+        default: "yes",
+    }).render(true);
+}
+
+
 function checkSystem(system) {
-if (system === 'dnd5e') 
-    dnd5e = true
+    if (system === 'dnd5e')
+        dnd5e = true
 }
 
 // Trigger weather fx chain of events. 1st it transforms the whole message to lowercase so it's easier to check the cases without worrying for capital letters. 2nd start the check weather function, that checks the string for which weather was generated.
@@ -152,7 +212,7 @@ function checkWeather(msgString) {
 // This function apply weather effects to the canvas, but first cleans any effects that are currently applied.
 function weatherEffects(effectCondition) {
     clearEffects();
-    canvas.scene.setFlag("weatherfx", "active", "true");
+    canvas.scene.setFlag("weatherfx", "active", true);
 
     if (effectCondition.effectsArray.length > 0)
         Hooks.call(particleWeather, effectCondition.effectsArray)
@@ -191,8 +251,10 @@ async function weatherRoll(item) {
                     <h3 class="item-name">${weather.name}</h3></header>
                     <div class="card-content">${weather.description}</div>
                     ${saveButton}<footer class="card-footer"></footer></div>`
-    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: msgContent,
-    whisper: ChatMessage.getWhisperRecipients("GM") })
+    ChatMessage.create({
+        speaker: { alias: 'Weather Effects: ' }, content: msgContent,
+        whisper: ChatMessage.getWhisperRecipients("GM")
+    })
 }
 
 // Read the json weather 'item' file.
@@ -204,7 +266,7 @@ async function jsonItem() {
 
 // remove all the current fx on the canvas, also stops all the sounds effects that matches the flag weatherfx.audio
 function clearEffects() {
-    canvas.scene.setFlag("weatherfx", "active", "false");
+    canvas.scene.setFlag("weatherfx", "active", false);
     let src = canvas.scene.getFlag("weatherfx", "audio");
     Hooks.call(particleWeather, []);
     FXMASTER.filters.setFilters([]);

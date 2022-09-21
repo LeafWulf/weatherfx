@@ -7,6 +7,7 @@ export let blizzardSound = 'modules/michaelghelfi/ambience/Snowing.ogg';
 export let rainSound = 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg';
 export let thunderstormSound  = 'modules/michaelghelfi/ambience/RainandThunder.ogg';
 export let heavyRainSound = 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg';
+export let currentWeather = null
 
 export function registerSettings() {
     game.settings.register(MODULE, 'autoApply', {
@@ -103,6 +104,19 @@ export function registerSettings() {
             cacheWfxSettings();
         },
     });
+    
+    game.settings.register(MODULE, 'currentWeather', {
+        name: 'weatherData',
+        hint: '',
+        scope: 'world',
+        config: false,
+        type: Object,
+        default: currentWeather,
+        restricted: true,
+        onChange: () => {
+            cacheWfxSettings();
+        },
+    });
 }
 
 // function that get the settings options and assign to the variables
@@ -114,4 +128,5 @@ export function cacheWfxSettings() {
     rainSound = game.settings.get(MODULE, 'rainSound');
     thunderstormSound = game.settings.get(MODULE, 'thunderstormSound');
     heavyRainSound = game.settings.get(MODULE, 'heavyRainSound');
+    currentWeather = game.settings.get(MODULE, 'currentWeather');
 }
