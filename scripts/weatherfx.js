@@ -32,8 +32,6 @@ Hooks.on('canvasReady', async function () {
         if (enableSound)
             if (canvas.scene.getFlag("weatherfx", "audio") != "")
                 AudioHelper.play({ src: canvas.scene.getFlag("weatherfx", "audio"), volume: 0.8, loop: true }, true);
-    if (!canvas.scene.getFlag("weatherfx", "active"))
-        clearEffects();
 })
 
 Hooks.once('renderWeatherApplication', async function (app, html, data) {
