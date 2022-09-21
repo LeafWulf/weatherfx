@@ -51,6 +51,11 @@ You can create an issue here: [Issues](../../issues)
 ### 1.1.1
 - Fixed problem that images were not packed with the module.
 - Changed the control icons (sun remove weather fx, sun-rain to apply weather fx)
+### 1.1.2
+- Added a check, a warning and a dialog in case the Weather Control output to chat option is set to off. (thanks [roi007leaf](https://github.com/roi007leaf) for the heads up.
+- now hook to check if the song should continue playing is on 'canvasReady' instead of 'ready'.
+- added Heavy Clouds missing image.
+
 
 ## Special Thanks
 `Peterson`, ``Zhell``, ``MisterHims``, ``Freeze`` and `honeybadger`
