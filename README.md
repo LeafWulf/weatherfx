@@ -56,7 +56,7 @@ You can create an issue here: [Issues](../../issues)
 - Now hook to check if the song should continue playing is on 'canvasReady' instead of 'ready'.
 - Added Heavy Clouds missing image.
 ### 1.1.3
-- Quick fix in case the current weather string is empty, get from weather-control weatherData object.
+- Temporary fix. It gets the weatherData.precipitation from weather-control settings in case Weather FX doesn't have a string to use.
 
 
 ## Special Thanks
