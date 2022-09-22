@@ -19,7 +19,8 @@ Hooks.once("init", () => {
 // Hook that triggers when the game is ready. Check if there is a weather effect been played, then check if sound is enabled and restart the sound that should be played.
 Hooks.once('ready', async function () {
     fvttVersion = parseInt(game.version)
-    console.log("🐺 ==================== FoundryVTT Version: ", fvttVersion)
+    console.log(" ====================================== ⛈ Weather FX  ====================================== ")
+    console.log(" =================================== FoundryVTT Version: ", fvttVersion, " =================================== ")
     //compatibility with v9
     if (fvttVersion < 10) {
         particleWeather = 'fxmaster.updateWeather'
