@@ -38,6 +38,9 @@ Hooks.once('renderWeatherApplication', async function (app, html, data) {
     if (!isChatOutputOn()) {
         noChatOutputDialog()
     }
+    if (game.settings.get("weatherfx", "currentWeather") == '')
+        await game.settings.set("weatherfx", "currentWeather", game.settings.get("weather-control", "weatherData").precipitation)
+
     // console.log("🐺 ==================== message object", data)
     // console.log("🐺 ==================== message html", html)
     // console.log("🐺 ==================== message app", app)
@@ -72,7 +75,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 // game.settings.get("", "enableWeatherFX"),
                 onClick: () => {
                     clearEffects()
-                    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: "Weather effects for: " + game.settings.get("weatherfx", "currentWeather") + " removed", whisper: ChatMessage.getWhisperRecipients("GM") });
+                    ChatMessage.create({ speaker: { alias: 'Weather Effects: ' }, content: "Weather effects for: " + game.settings.get("weatherfx", "currentWeather") + " <b style='color:red'>removed</b>", whisper: ChatMessage.getWhisperRecipients("GM") });
                 },
             },
             {
@@ -108,7 +111,6 @@ function isChatOutputOn() {
 }
 
 function noChatOutputDialog() {
-
     new Dialog({
         title: "No weather data!",
         content: "<p>Please activate <b>Weather Control</b> output to chat, otherwise Weather FX can't access its data</p><p><br></p>",
