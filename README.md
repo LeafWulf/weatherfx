@@ -3,7 +3,8 @@
 <!-- ![Latest Release Download Count](https://img.shields.io/github/downloads/paulo-roger/weatherfx/latest/module.zip) -->
 <!--- Forge Bazaar Install % Badge -->
 <!--- replace <your-module-name> with the `name` in your manifest -->
-![Foundry V10](https://img.shields.io/badge/Foundry-v10-informational) ![Supported Foundry Versions](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https://github.com/paulo-roger/weatherfx/releases/latest/download/module.json) ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fweatherfx&colorB=0374b5)  
+<!-- ![Foundry V10](https://img.shields.io/badge/Foundry-v10-informational)  -->
+![Supported Foundry Versions](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https://github.com/paulo-roger/weatherfx/releases/latest/download/module.json) ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fweatherfx&colorB=0374b5)  
 ![Latest Downloads](https://img.shields.io/github/downloads/paulo-roger/weatherfx/latest/module.zip?color=blue&label=latest%20downloads) ![Total Downloads](https://img.shields.io/github/downloads/paulo-roger/weatherfx/module.zip?color=blue&label=total%20downloads)  
 ![Discord](https://dcbadge.vercel.app/api/shield/219289132235489280?style=flat) [![Ko-fi](https://img.shields.io/badge/Ko--fi-winterwulf-0374b5?logo=kofi)](https://ko-fi.com/winterwulf)
 
