@@ -60,7 +60,11 @@
   "media": [
     {
       "type": "icon",
-      "url": "https://odragaover.de/wp-content/uploads/ultimatemember/4/profile_photo-80x80.png?1663459606"
+      "url": "https://raw.githubusercontent.com/paulo-roger/weatherfx/master/readme/icon.png"
+    },
+    {
+      "type": "cover",
+      "url": "https://raw.githubusercontent.com/paulo-roger/weatherfx/master/readme/cover.png"
     }
   ]
 }
