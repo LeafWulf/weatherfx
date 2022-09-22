@@ -55,6 +55,8 @@ You can create an issue here: [Issues](../../issues)
 - Added a check, a warning and a dialog in case the Weather Control output to chat option is set to off. Thanks [roi007leaf](https://github.com/roi007leaf) for the heads up.
 - Now hook to check if the song should continue playing is on 'canvasReady' instead of 'ready'.
 - Added Heavy Clouds missing image.
+### 1.1.3
+- Quick fix in case the current weather string is empty, get from weather-control weatherData object.
 
 
 ## Special Thanks
