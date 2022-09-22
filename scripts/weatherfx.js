@@ -39,13 +39,19 @@ Hooks.once('renderWeatherApplication', async function (app, html, data) {
         noChatOutputDialog()
     }
     if (game.settings.get("weatherfx", "currentWeather") == '')
-        await game.settings.set("weatherfx", "currentWeather", game.settings.get("weather-control", "weatherData").precipitation)
+        await getPrecipitation();
 
     // console.log("🐺 ==================== message object", data)
     // console.log("🐺 ==================== message html", html)
     // console.log("🐺 ==================== message app", app)
 
 })
+
+// this function should be a temporary fix. It gets the weatherData.precipitation from weather-control settings in case Weather FX doesn't have a string to use.
+async function getPrecipitation() {
+    let weatherData = await game.settings.get("weather-control", "weatherData").precipitation
+    await game.settings.set("weatherfx", "currentWeather", weatherData)
+}
 
 // Hook on every created message, if this is a message created with the alias "Today's Weather", then trigger the Weather FX part. 
 Hooks.on('createChatMessage', async function (message, html, data) {
@@ -87,7 +93,9 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                     game.user.isGM,
                 //  &&
                 // game.settings.get("", "enableWeatherFX"),
-                onClick: () => {
+                onClick: async () => {
+                    if (game.settings.get("weatherfx", "currentWeather") == '')
+                        await getPrecipitation();
                     if (isChatOutputOn()) {
                         let currentWeather = game.settings.get("weatherfx", "currentWeather")
                         weatherTrigger(currentWeather);
@@ -120,7 +128,7 @@ function noChatOutputDialog() {
                 label: "Activate",
                 callback: async () => {
                     await game.settings.set('weather-control', 'outputWeatherChat', true)
-                    await game.settings.set("weatherfx", "currentWeather", game.settings.get("weather-control", "weatherData").precipitation)
+                    await getPrecipitation();
                     // let currentWeather = game.settings.get("weatherfx", "currentWeather")
                     // weatherTrigger(currentWeather);
                 }
