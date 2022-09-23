@@ -134,10 +134,10 @@ const coldClimate = {
 const heavyRain = {
     "type": "raintop",
     "options": {
-        "scale": 1.3,
+        "scale": 1.5,
         "speed": 1.8,
-        "lifetime": 1.2,
-        "density": 2,
+        "lifetime": 0.7,
+        "density": 0.6,
         "tint": {
             "apply": false,
             "value": "#ffffff"
