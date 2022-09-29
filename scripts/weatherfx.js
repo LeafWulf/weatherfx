@@ -30,11 +30,11 @@ Hooks.once('ready', async function () {
     if (fvttVersion < 10) {
         particleWeather = 'fxmaster.updateWeather'
     }
-    await firstTime(true);
+    await weatherfxPlaylistExists();
 });
 
 Hooks.on('canvasReady', async function () {
-    if (canvas.scene.getFlag("weatherfx", "audio") !== undefined)
+    if (await canvas.scene.getFlag("weatherfx", "active") !== undefined)
         await firstTime(true);
 
 })
@@ -247,7 +247,7 @@ export async function checkWeather(msgString) {
 // This function apply weather effects to the canvas, but first cleans any effects that are currently applied.
 async function weatherEffects(effectCondition) {
     if (canvas.scene.getFlag("weatherfx", "isActive") !== undefined)
-       await clearEffects();
+        await clearEffects();
 
     await canvas.scene.setFlag("weatherfx", "isActive", true);
     await canvas.scene.setFlag("weatherfx", "effectCondition", effectCondition);
@@ -314,6 +314,15 @@ async function clearEffects() {
             playlist.stopSound(sound);
         }
 
+    }
+}
+
+async function weatherfxPlaylistExists() {
+    let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
+    let playlistExists = playlist ? true : false;
+    if (!playlistExists) {
+        // let isFirstTime = game.settings.get(MODULE, 'firstTime1.2.0');
+        await weatherfxPlaylist(playlistName);
     }
 }
 

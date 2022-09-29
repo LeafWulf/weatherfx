@@ -15,17 +15,7 @@ export async function firstTime(isFirstTime) {
         await canvas.scene.unsetFlag("weatherfx", "audio");
         await canvas.scene.unsetFlag("weatherfx", "active");
     }
-    await weatherfxPlaylistExists();
     firstTimeDialog();
-}
-
-async function weatherfxPlaylistExists() {
-    let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
-    let playlistExists = playlist ? true : false;
-    if (!playlistExists) {
-        // let isFirstTime = game.settings.get(MODULE, 'firstTime1.2.0');
-        await weatherfxPlaylist(playlistName);
-    }
 }
 
 function firstTimeDialog() {
