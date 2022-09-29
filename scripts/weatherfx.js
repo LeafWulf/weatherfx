@@ -10,7 +10,7 @@ let lang
 
 //Compatibility with v9
 let fvttVersion
-let particleWeather = 'fxmaster.updateParticleEffects'
+export let particleWeather = 'fxmaster.updateParticleEffects'
 
 // Hook that trigger once when the game is initiated. Register and cache settings.
 Hooks.once("init", () => {
@@ -33,7 +33,7 @@ Hooks.once('ready', async function () {
     await weatherfxPlaylistExists();
 });
 
-async function weatherfxPlaylistExists(){
+async function weatherfxPlaylistExists() {
     let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
     let playlistExists = playlist ? true : false;
     if (!playlistExists) {
@@ -44,7 +44,7 @@ async function weatherfxPlaylistExists(){
 
 Hooks.on('canvasReady', async function () {
     if (canvas.scene.getFlag("weatherfx", "audio") !== undefined)
-            await firstTime(true);
+        await firstTime(true);
 
 })
 
@@ -189,15 +189,11 @@ async function getKeyByVal(obj, val) {
 
 // checks the string for which weather was generated, create the effect and passes it as argument for Weather Effects function.
 async function checkWeather(msgString) {
-    console.log("antes DO FIND: ", msgString)
     msgString = await game.settings.get("weatherfx", "currentWeather") //arrumar isso depois
     let weatherObject = await langJson();
-    // let comparableString = invertObject(weatherArray)["Chuvas torrenciais hoje."] doesnt work because there arent unique values.
     let comparableString = await getKeyByVal(weatherObject, msgString)
     let enJson = await langJson("en")
     msgString = enJson[comparableString].toLowerCase()
-    console.log("DEPOIS DO FIND: ", msgString)
-
 
     if (msgString.includes('rain')) {
         if (msgString.includes('heavy') || msgString.includes('monsoon')) {
@@ -258,10 +254,12 @@ async function checkWeather(msgString) {
 }
 
 // This function apply weather effects to the canvas, but first cleans any effects that are currently applied.
-function weatherEffects(effectCondition) {
-    canvas.scene.setFlag("weatherfx", "effectCondition", effectCondition);
-    clearEffects();
-    canvas.scene.setFlag("weatherfx", "isActive", true);
+async function weatherEffects(effectCondition) {
+    if (canvas.scene.getFlag("weatherfx", "isActive") !== undefined)
+       await clearEffects();
+
+    await canvas.scene.setFlag("weatherfx", "isActive", true);
+    await canvas.scene.setFlag("weatherfx", "effectCondition", effectCondition);
 
     if (effectCondition.effectsArray.length > 0)
         Hooks.call(particleWeather, effectCondition.effectsArray)
@@ -270,7 +268,7 @@ function weatherEffects(effectCondition) {
         FXMASTER.filters.setFilters(effectCondition.filtersArray)
     }
 
-    if (enableSound) {
+    if (enableSound && effectCondition.hasSound) {
         let playlist = game.playlists.getName(playlistName);
         let sound = playlist.sounds.getName(effectCondition.name);
         playlist.playSound(sound);
@@ -313,12 +311,12 @@ async function jsonItem() {
 }
 
 // remove all the current fx on the canvas, also stops all the sounds effects that matches the flag weatherfx.audio
-function clearEffects() {
-    canvas.scene.setFlag("weatherfx", "isActive", false);
+async function clearEffects() {
+    await canvas.scene.setFlag("weatherfx", "isActive", false);
     let effectCondition = canvas.scene.getFlag("weatherfx", "effectCondition");
     Hooks.call(particleWeather, []);
     FXMASTER.filters.setFilters([]);
-    if (enableSound) {
+    if (enableSound && effectCondition.hasSound) {
         let playlist = game.playlists.getName(playlistName);
         let sound = playlist.sounds.getName(effectCondition.name);
         if (sound.playing) {
