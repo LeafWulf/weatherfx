@@ -3,6 +3,7 @@ import { registerSettings, cacheWfxSettings, enableSound, autoApply, enableHB, b
 import { MODULE, MODULE_DIR, JSON_ITEM, WEATHER_VARIABLES, playlistName } from "./const.js";
 import { removeTemperature } from "./util.js"
 import { generatePlaylist, addSound } from "./playlist.js"
+import { firstTime } from "./patchPlaylist.js";
 
 let dnd5e = false
 let lang
@@ -29,16 +30,22 @@ Hooks.once('ready', async function () {
     if (fvttVersion < 10) {
         particleWeather = 'fxmaster.updateWeather'
     }
-    let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
-    let playlistExists = playlist ? true : false;
-    if (!playlistExists) await weatherfxPlaylist(playlistName);
+    await weatherfxPlaylistExists();
 });
 
+async function weatherfxPlaylistExists(){
+    let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
+    let playlistExists = playlist ? true : false;
+    if (!playlistExists) {
+        // let isFirstTime = game.settings.get(MODULE, 'firstTime1.2.0');
+        await weatherfxPlaylist(playlistName);
+    }
+}
+
 Hooks.on('canvasReady', async function () {
-    if (canvas.scene.getFlag("weatherfx", "active"))
-        if (enableSound)
-            if (canvas.scene.getFlag("weatherfx", "audio") != "")
-                AudioHelper.play({ src: canvas.scene.getFlag("weatherfx", "audio"), volume: 0.8, loop: true }, true);
+    if (canvas.scene.getFlag("weatherfx", "audio") !== undefined)
+            await firstTime(true);
+
 })
 
 Hooks.once('renderWeatherApplication', async function (app, html, data) {
@@ -252,8 +259,9 @@ async function checkWeather(msgString) {
 
 // This function apply weather effects to the canvas, but first cleans any effects that are currently applied.
 function weatherEffects(effectCondition) {
+    canvas.scene.setFlag("weatherfx", "effectCondition", effectCondition);
     clearEffects();
-    canvas.scene.setFlag("weatherfx", "active", true);
+    canvas.scene.setFlag("weatherfx", "isActive", true);
 
     if (effectCondition.effectsArray.length > 0)
         Hooks.call(particleWeather, effectCondition.effectsArray)
@@ -264,12 +272,8 @@ function weatherEffects(effectCondition) {
 
     if (enableSound) {
         let playlist = game.playlists.getName(playlistName);
-        let sound = playlist.sounds.getName(effectCondition);
-        if (sound.playing) {
-            playlist.stopSound(sound);
-        } else {
-            playlist.playSound(sound);
-        }
+        let sound = playlist.sounds.getName(effectCondition.name);
+        playlist.playSound(sound);
     }
 
     if (effectCondition.type == '' || !dnd5e || !enableHB)
@@ -310,13 +314,17 @@ async function jsonItem() {
 
 // remove all the current fx on the canvas, also stops all the sounds effects that matches the flag weatherfx.audio
 function clearEffects() {
-    canvas.scene.setFlag("weatherfx", "active", false);
-    let src = canvas.scene.getFlag("weatherfx", "audio");
+    canvas.scene.setFlag("weatherfx", "isActive", false);
+    let effectCondition = canvas.scene.getFlag("weatherfx", "effectCondition");
     Hooks.call(particleWeather, []);
     FXMASTER.filters.setFilters([]);
-    for (let [key, sound] of game.audio.playing) {
-        if (sound.src !== src) continue;
-        sound.stop();
+    if (enableSound) {
+        let playlist = game.playlists.getName(playlistName);
+        let sound = playlist.sounds.getName(effectCondition.name);
+        if (sound.playing) {
+            playlist.stopSound(sound);
+        }
+
     }
 }
 

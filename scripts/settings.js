@@ -5,6 +5,11 @@ export let enableHB = true;
 export let enableSound = false;
 export let currentWeather = null
 
+export let blizzardSound = 'modules/michaelghelfi/ambience/Snowing.ogg';
+export let rainSound = 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg';
+export let thunderstormSound  = 'modules/michaelghelfi/ambience/RainandThunder.ogg';
+export let heavyRainSound = 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg';
+
 export function registerSettings() {
     game.settings.register(MODULE, 'autoApply', {
         name: 'Automatic Apply',
@@ -44,6 +49,62 @@ export function registerSettings() {
             cacheWfxSettings();
         },
     });
+// remove the next 4 settings in the future, these were kept only so it don't break anything.
+    game.settings.register(MODULE, 'blizzardSound', {
+        name: 'Custom sounds effects: Blizzard',
+        hint: 'Let you change the sounds effects for whatever you prefer.',
+        scope: 'world',
+        config: false,
+        type: String,
+        filePicker: 'audio',
+        default: 'modules/michaelghelfi/ambience/Snowing.ogg',
+        restricted: true,
+        onChange: () => {
+            cacheWfxSettings();
+        },
+    });
+
+    game.settings.register(MODULE, 'rainSound', {
+        name: 'Custom sounds effects: Rain',
+        hint: 'Let you change the sounds effects for whatever you prefer.',
+        scope: 'world',
+        config: false,
+        type: String,
+        filePicker: 'audio',
+        default: 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg',
+        restricted: true,
+        onChange: () => {
+            cacheWfxSettings();
+        },
+    });
+
+    game.settings.register(MODULE, 'thunderstormSound', {
+        name: 'Custom sounds effects: Storm',
+        hint: 'Let you change the sounds effects for whatever you prefer.',
+        scope: 'world',
+        config: false,
+        type: String,
+        filePicker: 'audio',
+        default: 'modules/michaelghelfi/ambience/RainandThunder.ogg',
+        restricted: true,
+        onChange: () => {
+            cacheWfxSettings();
+        },
+    });
+
+    game.settings.register(MODULE, 'heavyRainSound', {
+        name: 'Custom sounds effects: Heavy Rain',
+        hint: 'Let you change the sounds effects for whatever you prefer.',
+        scope: 'world',
+        config: false,
+        type: String,
+        filePicker: 'audio',
+        default: 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg',
+        restricted: true,
+        onChange: () => {
+            cacheWfxSettings();
+        },
+    });
     
     game.settings.register(MODULE, 'currentWeather', {
         name: 'weatherData',
@@ -52,6 +113,19 @@ export function registerSettings() {
         config: false,
         type: Object,
         default: currentWeather,
+        restricted: true,
+        onChange: () => {
+            cacheWfxSettings();
+        },
+    });
+
+    game.settings.register(MODULE, 'firstTime1.2.0', {
+        name: '1.2.0',
+        hint: '',
+        scope: 'world',
+        config: false,
+        type: Object,
+        default: false,
         restricted: true,
         onChange: () => {
             cacheWfxSettings();
