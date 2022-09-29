@@ -13,6 +13,7 @@ export async function firstTime(isFirstTime) {
             }
         await canvas.scene.unsetFlag("weatherfx", "audio");
         await canvas.scene.unsetFlag("weatherfx", "active");
+        await canvas.scene.unsetFlag("weatherfx", "currentWeather");
         await getPrecipitation();
     }
     firstTimeDialog();
