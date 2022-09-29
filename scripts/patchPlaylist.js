@@ -1,21 +1,21 @@
 import { particleWeather, getPrecipitation, checkWeather, noChatOutputDialog, isChatOutputOn, weatherfxPlaylist } from "./weatherfx.js"
 import { MODULE, playlistName } from "./const.js";
 
-export async function firstTime(isFirstTime) {
-    if (isFirstTime) {
+export async function firstTime() {
+    Hooks.call(particleWeather, []);
+    FXMASTER.filters.setFilters([]);
+    if (canvas.scene.getFlag("weatherfx", "audio") !== undefined) {
         let src = canvas.scene.getFlag("weatherfx", "audio");
-        Hooks.call(particleWeather, []);
-        FXMASTER.filters.setFilters([]);
         if (canvas.scene.getFlag("weatherfx", "active"))
             for (let [key, sound] of game.audio.playing) {
                 if (sound.src !== src) continue;
                 sound.stop();
             }
-        await canvas.scene.unsetFlag("weatherfx", "audio");
-        await canvas.scene.unsetFlag("weatherfx", "active");
-        await canvas.scene.unsetFlag("weatherfx", "currentWeather");
-        await getPrecipitation();
     }
+    await canvas.scene.unsetFlag("weatherfx", "audio");
+    await canvas.scene.unsetFlag("weatherfx", "active");
+    await canvas.scene.unsetFlag("weatherfx", "currentWeather");
+    await getPrecipitation();
     firstTimeDialog();
 }
 
