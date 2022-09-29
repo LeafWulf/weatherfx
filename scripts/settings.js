@@ -50,7 +50,7 @@ export function registerSettings() {
     });
 
     game.settings.register(MODULE, 'blizzardSound', {
-        name: 'Custom sounds effects: Blizzard',
+        name: 'Custom SFX: Blizzard',
         hint: 'Let you change the sounds effects for whatever you prefer.',
         scope: 'world',
         config: true,
@@ -64,7 +64,7 @@ export function registerSettings() {
     });
 
     game.settings.register(MODULE, 'rainSound', {
-        name: 'Custom sounds effects: Rain',
+        name: 'Custom SFX: Rain',
         hint: 'Let you change the sounds effects for whatever you prefer.',
         scope: 'world',
         config: true,
@@ -78,7 +78,7 @@ export function registerSettings() {
     });
 
     game.settings.register(MODULE, 'thunderstormSound', {
-        name: 'Custom sounds effects: Storm',
+        name: 'Custom SFX: Storm',
         hint: 'Let you change the sounds effects for whatever you prefer.',
         scope: 'world',
         config: true,
@@ -92,7 +92,7 @@ export function registerSettings() {
     });
 
     game.settings.register(MODULE, 'heavyRainSound', {
-        name: 'Custom sounds effects: Heavy Rain',
+        name: 'Custom SFX: Heavy Rain',
         hint: 'Let you change the sounds effects for whatever you prefer.',
         scope: 'world',
         config: true,

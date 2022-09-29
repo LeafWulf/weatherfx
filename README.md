@@ -44,7 +44,7 @@ Weather FX also play sounds if you have this option on. The defaults sounds come
 If you have suggestions or want to report a problem, you can create an issue here: [Issues](../../issues)
 
 ## Changelog
-You can read the changelog here: [CHANGELOG.md](https://github.com/paulo-roger/weatherfx/blob/master/CHANGELOG.md)
+You can read the changelog here: [CHANGELOG.md](/CHANGELOG.md)
 
 ## Special Thanks
 `Peterson`, ``Zhell``, ``MisterHims``, ``Freeze`` and `honeybadger`
