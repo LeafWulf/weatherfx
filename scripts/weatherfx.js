@@ -55,18 +55,16 @@ export async function getPrecipitation() {
 }
 
 // Hook on every created message, if this is a message created with the alias "Today's Weather", then trigger the Weather FX part. 
-Hooks.on('createChatMessage', async function (message, html, data) {
+Hooks.on('createChatMessage', async function (message) {
     let todaysWeather = await langJson()
     todaysWeather = todaysWeather["wctrl.weather.tracker.Today"]
     if (fvttVersion < 10) //compatibility with v9
         message = message.data
     if (message.speaker.alias == todaysWeather) {
         let precipitation = removeTemperature(message.content)
-        // await game.settings.set(MODULE, "currentWeather", message.content);
         await game.settings.set(MODULE, "currentWeather", precipitation);
         if (autoApply)
             checkWeather(precipitation)
-        // weatherTrigger(message.content);
     }
 });
 
@@ -104,7 +102,6 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                     if (isChatOutputOn()) {
                         let currentWeather = game.settings.get("weatherfx", "currentWeather")
                         checkWeather(currentWeather)
-                        // weatherTrigger(currentWeather);
                     }
                     else noChatOutputDialog()
 
@@ -135,8 +132,6 @@ export function noChatOutputDialog() {
                 callback: async () => {
                     await game.settings.set('weather-control', 'outputWeatherChat', true)
                     await getPrecipitation();
-                    // let currentWeather = game.settings.get("weatherfx", "currentWeather")
-                    // weatherTrigger(currentWeather);
                 }
             },
             no: {
@@ -155,12 +150,6 @@ export function noChatOutputDialog() {
 function checkSystem(system) {
     if (system === 'dnd5e')
         dnd5e = true
-}
-
-// Trigger weather fx chain of events. 1st it transforms the whole message to lowercase so it's easier to check the cases without worrying for capital letters. 2nd start the check weather function, that checks the string for which weather was generated.
-function weatherTrigger(message) {
-    let msgString = message.toLowerCase();
-    checkWeather(msgString);
 }
 
 async function langJson(language = lang) {
@@ -320,10 +309,7 @@ async function clearEffects() {
 async function weatherfxPlaylistExists() {
     let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
     let playlistExists = playlist ? true : false;
-    if (!playlistExists) {
-        // let isFirstTime = game.settings.get(MODULE, 'firstTime1.2.0');
-        await weatherfxPlaylist(playlistName);
-    }
+    if (!playlistExists) await weatherfxPlaylist(playlistName);
 }
 
 export async function weatherfxPlaylist(playlistName) {

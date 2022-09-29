@@ -118,19 +118,6 @@ export function registerSettings() {
             cacheWfxSettings();
         },
     });
-
-    game.settings.register(MODULE, 'firstTime1.2.0', {
-        name: '1.2.0',
-        hint: '',
-        scope: 'world',
-        config: false,
-        type: Object,
-        default: false,
-        restricted: true,
-        onChange: () => {
-            cacheWfxSettings();
-        },
-    });
 }
 
 // function that get the settings options and assign to the variables

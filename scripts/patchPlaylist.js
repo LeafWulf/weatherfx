@@ -3,7 +3,6 @@ import { MODULE, playlistName } from "./const.js";
 
 export async function firstTime(isFirstTime) {
     if (isFirstTime) {
-        // await game.settings.set(MODULE, 'firstTime1.2.0', false);
         let src = canvas.scene.getFlag("weatherfx", "audio");
         Hooks.call(particleWeather, []);
         FXMASTER.filters.setFilters([]);
