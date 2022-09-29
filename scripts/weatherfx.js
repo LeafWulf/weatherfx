@@ -30,17 +30,8 @@ Hooks.once('ready', async function () {
     if (fvttVersion < 10) {
         particleWeather = 'fxmaster.updateWeather'
     }
-    await weatherfxPlaylistExists();
+    await firstTime(true);
 });
-
-async function weatherfxPlaylistExists() {
-    let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
-    let playlistExists = playlist ? true : false;
-    if (!playlistExists) {
-        // let isFirstTime = game.settings.get(MODULE, 'firstTime1.2.0');
-        await weatherfxPlaylist(playlistName);
-    }
-}
 
 Hooks.on('canvasReady', async function () {
     if (canvas.scene.getFlag("weatherfx", "audio") !== undefined)
@@ -122,7 +113,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
         );
 });
 
-function isChatOutputOn() {
+export function isChatOutputOn() {
     let outputWeatherChat = game.settings.get('weather-control', 'outputWeatherChat')
     // let precipitation = app.weatherTracker.weatherData.precipitation
     if (!outputWeatherChat) {
@@ -133,7 +124,7 @@ function isChatOutputOn() {
     return outputWeatherChat
 }
 
-function noChatOutputDialog() {
+export function noChatOutputDialog() {
     new Dialog({
         title: "No weather data!",
         content: "<p>Please activate <b>Weather Control</b> output to chat, otherwise Weather FX can't access its data</p><p><br></p>",
@@ -188,7 +179,7 @@ async function getKeyByVal(obj, val) {
 
 
 // checks the string for which weather was generated, create the effect and passes it as argument for Weather Effects function.
-async function checkWeather(msgString) {
+export async function checkWeather(msgString) {
     msgString = await game.settings.get("weatherfx", "currentWeather") //arrumar isso depois
     let weatherObject = await langJson();
     let comparableString = await getKeyByVal(weatherObject, msgString)
@@ -326,7 +317,7 @@ async function clearEffects() {
     }
 }
 
-async function weatherfxPlaylist(playlistName) {
+export async function weatherfxPlaylist(playlistName) {
     await generatePlaylist(playlistName);
     await addSound('blizzard', blizzardSound);
     await addSound('rain', rainSound);

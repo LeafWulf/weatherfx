@@ -1,4 +1,4 @@
-import { particleWeather, weatherfxPlaylistExists, getPrecipitation, checkWeather, noChatOutputDialog } from "./weatherfx.js"
+import { particleWeather, getPrecipitation, checkWeather, noChatOutputDialog, isChatOutputOn, weatherfxPlaylist } from "./weatherfx.js"
 import { MODULE } from "./const.js";
 
 export async function firstTime(isFirstTime) {
@@ -17,6 +17,15 @@ export async function firstTime(isFirstTime) {
     }
     await weatherfxPlaylistExists();
     firstTimeDialog();
+}
+
+async function weatherfxPlaylistExists() {
+    let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
+    let playlistExists = playlist ? true : false;
+    if (!playlistExists) {
+        // let isFirstTime = game.settings.get(MODULE, 'firstTime1.2.0');
+        await weatherfxPlaylist(playlistName);
+    }
 }
 
 function firstTimeDialog() {
