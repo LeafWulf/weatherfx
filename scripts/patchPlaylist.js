@@ -1,5 +1,5 @@
 import { particleWeather, getPrecipitation, checkWeather, noChatOutputDialog, isChatOutputOn, weatherfxPlaylist } from "./weatherfx.js"
-import { MODULE } from "./const.js";
+import { MODULE, playlistName } from "./const.js";
 
 export async function firstTime(isFirstTime) {
     if (isFirstTime) {
