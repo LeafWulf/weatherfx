@@ -35,7 +35,7 @@ Hooks.once('ready', async function () {
 
 Hooks.on('canvasReady', async function () {
     if (await canvas.scene.getFlag("weatherfx", "active") !== undefined || await canvas.scene.getFlag("weatherfx", "audio") !== undefined || await canvas.scene.getFlag("weatherfx", "currentWeather") !== undefined)
-        await firstTime(true);
+        await firstTime();
 
 })
 
