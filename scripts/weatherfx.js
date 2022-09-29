@@ -1,6 +1,6 @@
 import { createEffect } from "./effect.js"; //import function that create the effects
-import { registerSettings, cacheWfxSettings, enableSound, autoApply, enableHB } from "./settings.js"; //import settings variables and function that register those settings.
-import { MODULE, MODULE_DIR, JSON_ITEM, WEATHER_VARIABLES } from "./const.js";
+import { registerSettings, cacheWfxSettings, enableSound, autoApply, enableHB, blizzardSound, rainSound, heavyRainSound, thunderstormSound } from "./settings.js"; //import settings variables and function that register those settings.
+import { MODULE, MODULE_DIR, JSON_ITEM, WEATHER_VARIABLES, playlistName } from "./const.js";
 import { removeTemperature } from "./util.js"
 import { generatePlaylist, addSound } from "./playlist.js"
 
@@ -29,6 +29,9 @@ Hooks.once('ready', async function () {
     if (fvttVersion < 10) {
         particleWeather = 'fxmaster.updateWeather'
     }
+    let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
+    let playlistExists = playlist ? true : false;
+    if (!playlistExists) await weatherfxPlaylist(playlistName);
 });
 
 Hooks.on('canvasReady', async function () {
@@ -64,8 +67,8 @@ Hooks.on('createChatMessage', async function (message, html, data) {
         // await game.settings.set(MODULE, "currentWeather", message.content);
         await game.settings.set(MODULE, "currentWeather", precipitation);
         if (autoApply)
-        checkWeather(precipitation)
-            // weatherTrigger(message.content);
+            checkWeather(precipitation)
+        // weatherTrigger(message.content);
     }
 });
 
@@ -260,9 +263,12 @@ function weatherEffects(effectCondition) {
     }
 
     if (enableSound) {
-        canvas.scene.setFlag("weatherfx", "audio", effectCondition.sound);
-        if (effectCondition.hasSound) {
-            AudioHelper.play({ src: effectCondition.sound, volume: 0.8, loop: true }, true);
+        let playlist = game.playlists.getName(playlistName);
+        let sound = playlist.sounds.getName(effectCondition);
+        if (sound.playing) {
+            playlist.stopSound(sound);
+        } else {
+            playlist.playSound(sound);
         }
     }
 
@@ -312,4 +318,12 @@ function clearEffects() {
         if (sound.src !== src) continue;
         sound.stop();
     }
+}
+
+async function weatherfxPlaylist(playlistName) {
+    await generatePlaylist(playlistName);
+    await addSound('blizzard', blizzardSound);
+    await addSound('rain', rainSound);
+    await addSound('heavyRain', heavyRainSound);
+    await addSound('thunderstorm', thunderstormSound);
 }
