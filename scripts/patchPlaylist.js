@@ -14,6 +14,7 @@ export async function firstTime(isFirstTime) {
             }
         await canvas.scene.unsetFlag("weatherfx", "audio");
         await canvas.scene.unsetFlag("weatherfx", "active");
+        await getPrecipitation();
     }
     firstTimeDialog();
 }
@@ -32,7 +33,6 @@ function firstTimeDialog() {
                     if (isChatOutputOn()) {
                         let currentWeather = game.settings.get("weatherfx", "currentWeather")
                         checkWeather(currentWeather)
-                        // weatherTrigger(currentWeather);
                     }
                     else noChatOutputDialog()
                 }
