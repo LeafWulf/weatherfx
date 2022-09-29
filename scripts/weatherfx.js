@@ -127,7 +127,7 @@ export function isChatOutputOn() {
 export function noChatOutputDialog() {
     new Dialog({
         title: "No weather data!",
-        content: "<p>Please activate <b>Weather Control</b> output to chat, otherwise Weather FX can't access its data</p><p><br></p>",
+        content: "<p>Please activate <b>Weather Control</b> output to chat, otherwise Weather FX can't access its data</p>",
         buttons: {
             yes: {
                 icon: "<i class='fas fa-check'></i>",
