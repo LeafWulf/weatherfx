@@ -48,7 +48,7 @@ Hooks.once('renderWeatherApplication', async function (app, html, data) {
 })
 
 // this function should be a temporary fix. It gets the weatherData.precipitation from weather-control settings in case Weather FX doesn't have a string to use.
-async function getPrecipitation() {
+export async function getPrecipitation() {
     let weatherData = await game.settings.get("weather-control", "weatherData").precipitation
     await game.settings.set("weatherfx", "currentWeather", weatherData)
     return weatherData
