@@ -7,6 +7,7 @@ import { firstTime } from "./patchPlaylist.js";
 
 let dnd5e = false
 let lang
+let i18nTodaysWeather = "wctrl.weather.tracker.Today"
 
 //Compatibility with v9
 let fvttVersion
@@ -34,7 +35,7 @@ Hooks.once('ready', async function () {
 });
 
 Hooks.on('canvasReady', async function () {
-    if (await canvas.scene.getFlag("weatherfx", "active") !== undefined || await canvas.scene.getFlag("weatherfx", "audio") !== undefined || await canvas.scene.getFlag("weatherfx", "currentWeather") !== undefined)
+    if (await canvas.scene.getFlag("weatherfx", "active") !== undefined || await canvas.scene.getFlag("weatherfx", "audio") || await canvas.scene.getFlag("weatherfx", "currentWeather"))
         await firstTime();
 
 })
@@ -57,7 +58,7 @@ export async function getPrecipitation() {
 // Hook on every created message, if this is a message created with the alias "Today's Weather", then trigger the Weather FX part. 
 Hooks.on('createChatMessage', async function (message) {
     let todaysWeather = await langJson()
-    todaysWeather = todaysWeather["wctrl.weather.tracker.Today"]
+    todaysWeather = todaysWeather[i18nTodaysWeather]
     if (fvttVersion < 10) //compatibility with v9
         message = message.data
     if (message.speaker.alias == todaysWeather) {
