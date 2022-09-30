@@ -8,6 +8,15 @@ export function removeTags(str) { //function to remove html tags from the messag
     return str.replace(/(<([^>]+)>)/ig, '');
 }
 
+// remove the temperature from the message string.
+export function removeTemperature(string){
+    if ((string === null) || (string === ''))
+        return false;
+    else
+        string = string.toString();
+    return string.replace(/.+(?<= - )/ig, '');
+}
+
 export function getTemp(string) { //function to get the temperature from the message string, currently not been used.
     let input = ''
     for (var i = 0; i < string.length; i++) {

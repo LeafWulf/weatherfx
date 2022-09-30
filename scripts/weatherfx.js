@@ -1,8 +1,11 @@
 import { createEffect } from "./effect.js"; //import function that create the effects
-import { registerSettings, cacheWfxSettings, enableSound, autoApply, enableHB } from "./settings.js"; //import settings variables and function that register those settings.
-import { MODULE, MODULE_DIR, JSON_ITEM } from "./const.js";
+import { registerSettings, cacheWfxSettings, enableSound, autoApply, enableHB, blizzardSound, rainSound, heavyRainSound, thunderstormSound } from "./settings.js"; //import settings variables and function that register those settings.
+import { MODULE, MODULE_DIR, JSON_ITEM, WEATHER_VARIABLES, playlistName } from "./const.js";
+import { removeTemperature } from "./util.js"
+import { generatePlaylist, addSound } from "./playlist.js"
 
 let dnd5e = false
+let lang
 
 //Compatibility with v9
 let fvttVersion
@@ -19,16 +22,19 @@ Hooks.once("init", () => {
 // Hook that triggers when the game is ready. Check if there is a weather effect been played, then check if sound is enabled and restart the sound that should be played.
 Hooks.once('ready', async function () {
     fvttVersion = parseInt(game.version)
-    console.log(" ======================================= ⛈ Weather FX  ======================================= ")
+    lang = game.i18n.lang
+    console.log(" ======================================== ⛈ Weather FX  ======================================== ")
     console.log(" =================================== FoundryVTT Version: ", fvttVersion, " =================================== ")
     //compatibility with v9
     if (fvttVersion < 10) {
         particleWeather = 'fxmaster.updateWeather'
     }
+    let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
+    let playlistExists = playlist ? true : false;
+    if (!playlistExists) await weatherfxPlaylist(playlistName);
 });
 
 Hooks.on('canvasReady', async function () {
-    // console.log("🐺 ==================== canvas ready")
     if (canvas.scene.getFlag("weatherfx", "active"))
         if (enableSound)
             if (canvas.scene.getFlag("weatherfx", "audio") != "")
@@ -37,32 +43,32 @@ Hooks.on('canvasReady', async function () {
 
 Hooks.once('renderWeatherApplication', async function (app, html, data) {
     if (!isChatOutputOn()) {
-        noChatOutputDialog()
+        noChatOutputDialog();
     }
     if (game.settings.get("weatherfx", "currentWeather") == '')
         await getPrecipitation();
-
-    // console.log("🐺 ==================== message object", data)
-    // console.log("🐺 ==================== message html", html)
-    // console.log("🐺 ==================== message app", app)
-
 })
 
 // this function should be a temporary fix. It gets the weatherData.precipitation from weather-control settings in case Weather FX doesn't have a string to use.
 async function getPrecipitation() {
     let weatherData = await game.settings.get("weather-control", "weatherData").precipitation
     await game.settings.set("weatherfx", "currentWeather", weatherData)
+    return weatherData
 }
 
 // Hook on every created message, if this is a message created with the alias "Today's Weather", then trigger the Weather FX part. 
 Hooks.on('createChatMessage', async function (message, html, data) {
+    let todaysWeather = await langJson()
+    todaysWeather = todaysWeather["wctrl.weather.tracker.Today"]
     if (fvttVersion < 10) //compatibility with v9
         message = message.data
-    if (message.speaker.alias == `Today's Weather:`) {
-        // canvas.scene.setFlag("weatherfx", "currentWeather", message.content);
-        await game.settings.set(MODULE, "currentWeather", message.content);
+    if (message.speaker.alias == todaysWeather) {
+        let precipitation = removeTemperature(message.content)
+        // await game.settings.set(MODULE, "currentWeather", message.content);
+        await game.settings.set(MODULE, "currentWeather", precipitation);
         if (autoApply)
-            weatherTrigger(message.content);
+            checkWeather(precipitation)
+        // weatherTrigger(message.content);
     }
 });
 
@@ -99,7 +105,8 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                         await getPrecipitation();
                     if (isChatOutputOn()) {
                         let currentWeather = game.settings.get("weatherfx", "currentWeather")
-                        weatherTrigger(currentWeather);
+                        checkWeather(currentWeather)
+                        // weatherTrigger(currentWeather);
                     }
                     else noChatOutputDialog()
 
@@ -158,8 +165,33 @@ function weatherTrigger(message) {
     checkWeather(msgString);
 }
 
+async function langJson(language = lang) {
+    let file = await fetch(`modules/weather-control/lang/${language}.json`);
+    let json = await file.json();
+    return json;
+}
+
+async function getKeyByVal(obj, val) {
+    let valuesArray = Object.values(obj)
+    let keysArray = Object.keys(obj)
+    for (var i = 0; i < valuesArray.length; i++)
+        if (valuesArray[i] == val)
+            return keysArray[i]
+}
+
+
 // checks the string for which weather was generated, create the effect and passes it as argument for Weather Effects function.
-function checkWeather(msgString) {
+async function checkWeather(msgString) {
+    console.log("antes DO FIND: ", msgString)
+    msgString = await game.settings.get("weatherfx", "currentWeather") //arrumar isso depois
+    let weatherObject = await langJson();
+    // let comparableString = invertObject(weatherArray)["Chuvas torrenciais hoje."] doesnt work because there arent unique values.
+    let comparableString = await getKeyByVal(weatherObject, msgString)
+    let enJson = await langJson("en")
+    msgString = enJson[comparableString].toLowerCase()
+    console.log("DEPOIS DO FIND: ", msgString)
+
+
     if (msgString.includes('rain')) {
         if (msgString.includes('heavy') || msgString.includes('monsoon')) {
             return weatherEffects(createEffect('heavyRain'));
@@ -231,9 +263,12 @@ function weatherEffects(effectCondition) {
     }
 
     if (enableSound) {
-        canvas.scene.setFlag("weatherfx", "audio", effectCondition.sound);
-        if (effectCondition.hasSound) {
-            AudioHelper.play({ src: effectCondition.sound, volume: 0.8, loop: true }, true);
+        let playlist = game.playlists.getName(playlistName);
+        let sound = playlist.sounds.getName(effectCondition);
+        if (sound.playing) {
+            playlist.stopSound(sound);
+        } else {
+            playlist.playSound(sound);
         }
     }
 
@@ -283,4 +318,12 @@ function clearEffects() {
         if (sound.src !== src) continue;
         sound.stop();
     }
+}
+
+async function weatherfxPlaylist(playlistName) {
+    await generatePlaylist(playlistName);
+    await addSound('blizzard', blizzardSound);
+    await addSound('rain', rainSound);
+    await addSound('heavyRain', heavyRainSound);
+    await addSound('thunderstorm', thunderstormSound);
 }
