@@ -1,11 +1,11 @@
 <!--- Downloads @ Latest Badge -->
 <!--- replace <user>/<repo> with your username/repository -->
-<!-- ![Latest Release Download Count](https://img.shields.io/github/downloads/paulo-roger/weatherfx/latest/module.zip) -->
+<!-- ![Latest Release Download Count](https://img.shields.io/github/downloads/LeafWulf/weatherfx/latest/module.zip) -->
 <!--- Forge Bazaar Install % Badge -->
 <!--- replace <your-module-name> with the `name` in your manifest -->
 <!-- ![Foundry V10](https://img.shields.io/badge/Foundry-v10-informational)  -->
-[![Supported Foundry Versions](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https://github.com/paulo-roger/weatherfx/releases/latest/download/module.json)](https://foundryvtt.com/packages/weatherfx) [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fweatherfx&colorB=0374b5)](https://forge-vtt.com/bazaar#sort=updated&package=weatherfx)  
-[![Latest Downloads](https://img.shields.io/github/downloads/paulo-roger/weatherfx/latest/module.zip?color=blue&label=latest%20downloads)](https://github.com/paulo-roger/weatherfx/releases/latest) [![Total Downloads](https://img.shields.io/github/downloads/paulo-roger/weatherfx/module.zip?color=blue&label=total%20downloads)](https://github.com/paulo-roger/weatherfx/releases)  
+[![Supported Foundry Versions](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https://github.com/LeafWulf/weatherfx/releases/latest/download/module.json)](https://foundryvtt.com/packages/weatherfx) [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fweatherfx&colorB=0374b5)](https://forge-vtt.com/bazaar#sort=updated&package=weatherfx)  
+[![Latest Downloads](https://img.shields.io/github/downloads/LeafWulf/weatherfx/latest/module.zip?color=blue&label=latest%20downloads)](https://github.com/LeafWulf/weatherfx/releases/latest) [![Total Downloads](https://img.shields.io/github/downloads/LeafWulf/weatherfx/module.zip?color=blue&label=total%20downloads)](https://github.com/LeafWulf/weatherfx/releases)  
 [![Discord](https://dcbadge.vercel.app/api/shield/219289132235489280?style=flat)](https://discord.gg) [![Ko-fi](https://img.shields.io/badge/Ko--fi-winterwulf-0374b5?logo=kofi)](https://ko-fi.com/winterwulf)
 
 # Weather FX
@@ -47,7 +47,7 @@ If you have suggestions or want to report a problem, you can create an issue her
 You can read the changelog here: [CHANGELOG.md](/CHANGELOG.md)
 
 ## Special Thanks
-`Peterson`, ``Zhell``, ``MisterHims``, ``Freeze`` and `honeybadger`
+`Peterson`, `roi007leaf`, `Zhell`, `MisterHims`, `Freeze` and `honeybadger`
 
 ## Donations
 The module is totally free and will remain this way.  
