@@ -4,7 +4,7 @@ import { MODULE, playlistName } from "./const.js";
 export async function firstTime() {
     Hooks.call(particleWeather, []);
     FXMASTER.filters.setFilters([]);
-    if (canvas.scene.getFlag("weatherfx", "audio") !== undefined) {
+    if (canvas.scene.getFlag("weatherfx", "audio")) {
         let src = canvas.scene.getFlag("weatherfx", "audio");
         if (canvas.scene.getFlag("weatherfx", "active"))
             for (let [key, sound] of game.audio.playing) {
