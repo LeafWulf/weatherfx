@@ -57,7 +57,7 @@ export function registerSettings() {
         config: false,
         type: String,
         filePicker: 'audio',
-        default: 'modules/michaelghelfi/ambience/Snowing.ogg',
+        default: blizzardSound,
         restricted: true,
         onChange: () => {
             cacheWfxSettings();
@@ -71,7 +71,7 @@ export function registerSettings() {
         config: false,
         type: String,
         filePicker: 'audio',
-        default: 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg',
+        default: rainSound,
         restricted: true,
         onChange: () => {
             cacheWfxSettings();
@@ -85,7 +85,7 @@ export function registerSettings() {
         config: false,
         type: String,
         filePicker: 'audio',
-        default: 'modules/michaelghelfi/ambience/RainandThunder.ogg',
+        default: thunderstormSound,
         restricted: true,
         onChange: () => {
             cacheWfxSettings();
@@ -99,7 +99,7 @@ export function registerSettings() {
         config: false,
         type: String,
         filePicker: 'audio',
-        default: 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg',
+        default: heavyRainSound,
         restricted: true,
         onChange: () => {
             cacheWfxSettings();
