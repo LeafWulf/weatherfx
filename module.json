@@ -15,7 +15,7 @@
   "authors": [
     {
       "name": "winterwulf",
-      "url": "https://github.com/paulo-roger/",
+      "url": "https://github.com/LeafWulf/",
       "discord": "winterwulf#3118",
       "ko-fi": "winterwulf",
       "twitter": "@odragaoverde"
@@ -55,17 +55,17 @@
   "url": "This is auto replaced",
   "manifest": "This is auto replaced",
   "download": "This is auto replaced",
-  "license": "https://github.com/paulo-roger/weatherfx/blob/master/LICENSE",
-  "readme": "https://github.com/paulo-roger/weatherfx/blob/master/README.md",
-  "bugs": "https://github.com/paulo-roger/weatherfx/issues",
+  "license": "https://github.com/LeafWulf/weatherfx/blob/master/LICENSE",
+  "readme": "https://github.com/LeafWulf/weatherfx/blob/master/README.md",
+  "bugs": "https://github.com/LeafWulf/weatherfx/issues",
   "media": [
     {
       "type": "icon",
-      "url": "https://raw.githubusercontent.com/paulo-roger/weatherfx/master/readme/icon.png"
+      "url": "https://raw.githubusercontent.com/LeafWulf/weatherfx/master/readme/icon.png"
     },
     {
       "type": "cover",
-      "url": "https://raw.githubusercontent.com/paulo-roger/weatherfx/master/readme/cover.png"
+      "url": "https://raw.githubusercontent.com/LeafWulf/weatherfx/master/readme/cover.png"
     }
   ]
 }
