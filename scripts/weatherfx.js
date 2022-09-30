@@ -1,13 +1,12 @@
 import { createEffect } from "./effect.js"; //import function that create the effects
 import { registerSettings, cacheWfxSettings, enableSound, autoApply, enableHB, blizzardSound, rainSound, heavyRainSound, thunderstormSound } from "./settings.js"; //import settings variables and function that register those settings.
-import { MODULE, MODULE_DIR, JSON_ITEM, WEATHER_VARIABLES, playlistName } from "./const.js";
+import { MODULE, MODULE_DIR, JSON_ITEM, WEATHER_VARIABLES, playlistName, i18nTodaysWeather } from "./const.js";
 import { removeTemperature } from "./util.js"
 import { generatePlaylist, addSound } from "./playlist.js"
 import { firstTime } from "./patchPlaylist.js";
 
 let dnd5e = false
 let lang
-let i18nTodaysWeather = "wctrl.weather.tracker.Today"
 
 //Compatibility with v9
 let fvttVersion

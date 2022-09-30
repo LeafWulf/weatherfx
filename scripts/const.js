@@ -1,7 +1,8 @@
 export const MODULE = "weatherfx"; //module name
 export const MODULE_DIR = `modules/${MODULE}`; //module folder
 export const JSON_ITEM = `${MODULE_DIR}/scripts/weather-item.json`; //weather 'items' json file
-export const playlistName = 'Weather FX Playlist'
+export const playlistName = 'Weather FX Playlist';
+export const i18nTodaysWeather = "wctrl.weather.tracker.Today";
 export const WEATHER_VARIABLES = [
     "wctrl.weather.tracker.extreme.BaseballHail",
     "wctrl.weather.tracker.extreme.Blizzard",
