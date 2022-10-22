@@ -1,5 +1,6 @@
 import { MODULE } from "./const.js"
 
+export let toggleApp = null;
 export let autoApply = true;
 export let enableHB = true;
 export let enableSound = false;
@@ -118,10 +119,24 @@ export function registerSettings() {
             cacheWfxSettings();
         },
     });
+    
+    game.settings.register(MODULE, 'toggleApp', {
+        name: 'toggleApp',
+        hint: '',
+        scope: 'world',
+        config: false,
+        type: Number,
+        default: 1,
+        restricted: true,
+        onChange: () => {
+            cacheWfxSettings();
+        },
+    });
 }
 
 // function that get the settings options and assign to the variables
 export function cacheWfxSettings() {
+    toggleApp = game.settings.get(MODULE, 'toggleApp');
     autoApply = game.settings.get(MODULE, 'autoApply');
     enableHB = game.settings.get(MODULE, 'enableHB');
     enableSound = game.settings.get(MODULE, 'enableSound');

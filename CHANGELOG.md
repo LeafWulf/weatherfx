@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.2.0]
+- Now using playlists for SFX
+- The module detect a scene with old flags and inform the user.
+- now supports weather-control in any language.
+
 ## [1.1.4]
 - Fix for Thunderstorm / Heavy Rain FX. Should be less performance demanding now.
 

@@ -1,5 +1,5 @@
 import { createEffect } from "./effect.js"; //import function that create the effects
-import { registerSettings, cacheWfxSettings, enableSound, autoApply, enableHB, blizzardSound, rainSound, heavyRainSound, thunderstormSound } from "./settings.js"; //import settings variables and function that register those settings.
+import { registerSettings, cacheWfxSettings, enableSound, autoApply, enableHB, blizzardSound, rainSound, heavyRainSound, thunderstormSound, toggleApp } from "./settings.js"; //import settings variables and function that register those settings.
 import { MODULE, MODULE_DIR, JSON_ITEM, WEATHER_VARIABLES, playlistName, i18nTodaysWeather } from "./const.js";
 import { removeTemperature } from "./util.js"
 import { generatePlaylist, addSound } from "./playlist.js"
@@ -39,7 +39,7 @@ Hooks.on('canvasReady', async function () {
 
 })
 
-Hooks.once('renderWeatherApplication', async function (app, html, data) {
+Hooks.on('renderT', async function (app, html, data) {
     if (!isChatOutputOn()) {
         noChatOutputDialog();
     }
@@ -108,7 +108,32 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 },
             }
         );
+    controls
+        .find((c) => c.name == "notes")
+        .tools.push({
+            name: "toggle-weatherApp",
+            title: "Toggle Weather Control",
+            icon: "fas fa-cloud-sun",
+            button: true,
+            visible: game.user.isGM,
+            onClick: () => {
+                toggleWeatherControl()
+            },
+        });
 });
+
+function toggleWeatherControl(){
+    let factor = toggleApp;
+    game.settings.set("weatherfx", "toggleApp", factor * -1)
+    const defaultPosition = { top: 100*factor, left: 100*factor };
+    const element = document.getElementById('weather-control-container');
+    if (element) {
+      element.style.top = defaultPosition.top + 'px';
+      element.style.left = defaultPosition.left + 'px';
+      element.style.bottom = null;
+    }
+
+}
 
 export function isChatOutputOn() {
     let outputWeatherChat = game.settings.get('weather-control', 'outputWeatherChat')
