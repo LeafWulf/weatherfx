@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.0]
+- Added control button to toggle Weather Control window application (also useful to use when the window disappears)
+- Added a new scene configuration, the GM is able to disable Weather FX in any scene. This is useful to prevent to add weather effects in very large scenes that may cause lag.
+
 ## [1.2.0]
 - Now using playlists for SFX
 - The module detect a scene with old flags and inform the user.
