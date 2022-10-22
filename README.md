@@ -18,12 +18,12 @@ With the buttons added to the controls on the right side of the screen the GM ca
 
 ![functions](./readme/functions.png)
 
-***Toggle Weather Control window app***
+***Toggle Weather Control window app***  
 Control button to toggle Weather Control window application (also useful to use when the window disappears)
 
 ![toggleapp](./readme/toggleapp.png)
 
-***Scene configuration***
+***Scene configuration***  
 The GM is able to disable Weather FX in any scene. This is useful to prevent to add weather effects in very large scenes that may cause lag.
 
 ![sceneconfig](./readme/seceneconfig.png)
