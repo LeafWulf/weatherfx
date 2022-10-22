@@ -6,7 +6,7 @@
 <!-- ![Foundry V10](https://img.shields.io/badge/Foundry-v10-informational)  -->
 [![Supported Foundry Versions](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https://github.com/LeafWulf/weatherfx/releases/latest/download/module.json)](https://foundryvtt.com/packages/weatherfx) [![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fweatherfx&colorB=0374b5)](https://forge-vtt.com/bazaar#sort=updated&package=weatherfx)  
 [![Latest Downloads](https://img.shields.io/github/downloads/LeafWulf/weatherfx/latest/module.zip?color=blue&label=latest%20downloads)](https://github.com/LeafWulf/weatherfx/releases/latest) [![Total Downloads](https://img.shields.io/github/downloads/LeafWulf/weatherfx/module.zip?color=blue&label=total%20downloads)](https://github.com/LeafWulf/weatherfx/releases)  
-[![Discord](https://dcbadge.vercel.app/api/shield/219289132235489280?style=flat)](https://discord.gg) [![Ko-fi](https://img.shields.io/badge/Ko--fi-winterwulf-0374b5?logo=kofi)](https://ko-fi.com/winterwulf)
+[![Discord](https://dcbadge.vercel.app/api/shield/219289132235489280?style=flat)](https://discordapp.com/users/219289132235489280) [![Ko-fi](https://img.shields.io/badge/Ko--fi-winterwulf-0374b5?logo=kofi)](https://ko-fi.com/winterwulf)
 
 # Weather FX
 This module automatic generate weather effects on canvas (in the current scene) using [FX Master](https://foundryvtt.com/packages/fxmaster) module API and [Weather Control](https://foundryvtt.com/packages/weather-control) weather generation messages.
@@ -37,8 +37,7 @@ Weather FX also play sounds if you have this option on. The defaults sounds come
 
 
 ## Known Issues
-- Make sure to have Weather Control ouput to chat **ON**
-- Only supports Weather Control in English, this shall be fixed soon.
+- Make sure to have Weather Control output to chat **ON**
 
 ## Feedback
 If you have suggestions or want to report a problem, you can create an issue here: [Issues](../../issues)

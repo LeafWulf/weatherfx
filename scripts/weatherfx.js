@@ -34,9 +34,10 @@ Hooks.once('ready', async function () {
 });
 
 Hooks.on('canvasReady', async function () {
+    const thisScene = game.scenes.viewed
+    defaultAutoApplyFlag(thisScene)
     if (await canvas.scene.getFlag("weatherfx", "active") !== undefined || await canvas.scene.getFlag("weatherfx", "audio") || await canvas.scene.getFlag("weatherfx", "currentWeather"))
         await firstTime();
-
 })
 
 Hooks.on('renderT', async function (app, html, data) {
@@ -46,6 +47,45 @@ Hooks.on('renderT', async function (app, html, data) {
     if (game.settings.get("weatherfx", "currentWeather") == '')
         await getPrecipitation();
 })
+
+Hooks.on('renderSceneConfig', async (app, html) => {
+    defaultAutoApplyFlag(app.object);
+    const autoapplyCheckStatus = app.object.getFlag('weatherfx', 'auto-apply') ? 'checked' : '';
+    const injection = `
+    <hr>
+    <style>
+    .wfx-scene-config {
+        border: 1px solid #999;
+        border-radius: 8px;
+        margin: 8px 0;
+        padding: 0 15px 5px 15px;
+    }
+    </style>
+    <fieldset class="wfx-scene-config">
+      <legend>
+      <i class="fas fa-cloud-sun"></i>
+        <span>Weather FX</span>
+      </legend>
+      <div class="form-group">
+        <label>Auto Apply</label>
+        <input
+          type="checkbox"
+          name="flags.weatherfx.auto-apply"
+          ${autoapplyCheckStatus}>
+        <p class="notes">Toggle auto-apply weather effects to the scene.</p>
+      </div>
+      </fieldset>`;
+      const weatherEffect = html.find('select[name="weather"]');
+      const formGroup = weatherEffect.closest(".form-group");
+      formGroup.after(injection);
+      app.setPosition({ height: "auto" });
+})
+
+function defaultAutoApplyFlag(scene){
+    if (!hasProperty(scene, 'data.flags.weatherfx.auto-apply')) {
+        scene.setFlag('weatherfx', 'auto-apply', autoApply);
+    }
+}
 
 // this function should be a temporary fix. It gets the weatherData.precipitation from weather-control settings in case Weather FX doesn't have a string to use.
 export async function getPrecipitation() {
@@ -58,12 +98,13 @@ export async function getPrecipitation() {
 Hooks.on('createChatMessage', async function (message) {
     let todaysWeather = await langJson()
     todaysWeather = todaysWeather[i18nTodaysWeather]
+    let sceneAutoApply = game.scenes.viewed.getFlag('weatherfx', 'auto-apply') ? true : false;
     if (fvttVersion < 10) //compatibility with v9
         message = message.data
     if (message.speaker.alias == todaysWeather) {
         let precipitation = removeTemperature(message.content)
         await game.settings.set(MODULE, "currentWeather", precipitation);
-        if (autoApply)
+        if (autoApply & sceneAutoApply)
             checkWeather(precipitation)
     }
 });
@@ -122,15 +163,14 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
         });
 });
 
-function toggleWeatherControl(){
-    let factor = toggleApp;
-    game.settings.set("weatherfx", "toggleApp", factor * -1)
-    const defaultPosition = { top: 100*factor, left: 100*factor };
+function toggleWeatherControl() {
+    const defaultPosition = { top: 100 * toggleApp, left: 100 * toggleApp };
+    game.settings.set("weatherfx", "toggleApp", toggleApp * -1)
     const element = document.getElementById('weather-control-container');
     if (element) {
-      element.style.top = defaultPosition.top + 'px';
-      element.style.left = defaultPosition.left + 'px';
-      element.style.bottom = null;
+        element.style.top = defaultPosition.top + 'px';
+        element.style.left = defaultPosition.left + 'px';
+        element.style.bottom = null;
     }
 
 }
