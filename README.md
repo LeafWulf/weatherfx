@@ -37,7 +37,7 @@ Self explainable, you can have Weather FX auto apply on, thus Weather effects wi
 *Default: disabled*  
 Have Weather FX to roll weather conditions to the chat. Currently only available for DnD5e.
 
-**Enable Sound**
+**Enable Sound**  
 *Default: active*  
 Weather FX also play sounds if you have this option on. The defaults sounds come from the modules Ivan Duch's Music Packs and Michael Ghelfi Studios Audio Pack, although you can customize these in the settings bellow.
 
