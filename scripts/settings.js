@@ -26,7 +26,7 @@ export function registerSettings() {
     });
 
     game.settings.register(MODULE, 'enableHB', {
-        name: 'D&D 5e weather conditions',
+        name: 'D&D 5e Weather Conditions',
         hint: `Get Weather FX to roll weather conditions to the chat.`,
         scope: 'world',
         config: true,
@@ -39,7 +39,7 @@ export function registerSettings() {
     });
 
     game.settings.register(MODULE, 'enableSound', {
-        name: 'Enable sound',
+        name: 'Enable Sound',
         hint: `Play sound effects along with the visual weather effects (The default are sounds from the modules: Ivan Duch's Music Packs and Michael Ghelfi Studios Audio Pack, so you would need to install these modules as well or set your own custom sounds).`,
         scope: 'world',
         config: true,
