@@ -44,7 +44,7 @@ Hooks.on('renderT', async function (app, html, data) {
     if (!isChatOutputOn()) {
         noChatOutputDialog();
     }
-    if (game.settings.get("weatherfx", "currentWeather") == '')
+    if (!game.settings.get("weatherfx", "currentWeather") )
         await getPrecipitation();
 })
 
@@ -138,7 +138,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 //  &&
                 // game.settings.get("", "enableWeatherFX"),
                 onClick: async () => {
-                    if (game.settings.get("weatherfx", "currentWeather") == '')
+                    if (!game.settings.get("weatherfx", "currentWeather") )
                         await getPrecipitation();
                     if (isChatOutputOn()) {
                         let currentWeather = game.settings.get("weatherfx", "currentWeather")
