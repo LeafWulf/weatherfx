@@ -4,7 +4,10 @@ export let toggleApp = null;
 export let autoApply = true;
 export let enableHB = true;
 export let enableSound = false;
-export let currentWeather = null
+export let currentWeather = null;
+
+export let weatherAPI = null;
+export let show = true;
 
 export let blizzardSound = 'modules/michaelghelfi/ambience/Snowing.ogg';
 export let rainSound = 'modules/ivan-duch-music-packs/audio/rain-sfx.ogg';
@@ -50,6 +53,22 @@ export function registerSettings() {
             cacheWfxSettings();
         },
     });
+
+    game.settings.register(MODULE, 'weatherAPI', {
+        name: 'Weather API',
+        hint: `Fetch weather data from an online API instead of locally generating it.`,
+        scope: 'world',
+        config: true,
+        type: String,
+        default: false,
+        restricted: true,
+        onChange: () => {
+            cacheWfxSettings();
+        },
+    });
+
+
+
 // remove the next 4 settings in the future, these were kept only so it don't break anything.
     game.settings.register(MODULE, 'blizzardSound', {
         name: 'Custom sounds effects: Blizzard',
@@ -132,6 +151,19 @@ export function registerSettings() {
             cacheWfxSettings();
         },
     });
+    
+    game.settings.register(MODULE, 'show', {
+        name: 'show',
+        hint: '',
+        scope: 'world',
+        config: false,
+        type: Boolean,
+        default: false,
+        restricted: true,
+        onChange: () => {
+            cacheWfxSettings();
+        },
+    });
 }
 
 // function that get the settings options and assign to the variables
@@ -145,4 +177,5 @@ export function cacheWfxSettings() {
     thunderstormSound = game.settings.get(MODULE, 'thunderstormSound');
     heavyRainSound = game.settings.get(MODULE, 'heavyRainSound');
     currentWeather = game.settings.get(MODULE, 'currentWeather');
+    weatherAPI = game.settings.get(MODULE, 'weatherAPI');
 }

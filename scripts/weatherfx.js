@@ -4,6 +4,9 @@ import { MODULE, MODULE_DIR, JSON_ITEM, WEATHER_VARIABLES, playlistName, i18nTod
 import { removeTemperature } from "./util.js"
 import { generatePlaylist, addSound } from "./playlist.js"
 import { firstTime } from "./patchPlaylist.js";
+import { generateWeather } from "./weatherdata.js";
+import { weatherApp } from "./app.js"
+import { injectApp } from "./injectapp.js"
 
 let dnd5e = false
 let lang
@@ -34,17 +37,72 @@ Hooks.once('ready', async function () {
 });
 
 Hooks.on('canvasReady', async function () {
+
+
+
     const thisScene = game.scenes.viewed
     defaultAutoApplyFlag(thisScene)
     if (await canvas.scene.getFlag("weatherfx", "active") !== undefined || await canvas.scene.getFlag("weatherfx", "audio") || await canvas.scene.getFlag("weatherfx", "currentWeather"))
         await firstTime();
 })
 
+Hooks.on('renderSmallTimeApp', function (app, html) {
+    // console.log(app, html.find('#dragHandle'))
+    // weatherApp.toggleAppVis('initial')
+    const injection = `<form class="flexcol" id="weather-app">
+                        <div id="displayContainer">
+                            <div id="current-temp">
+                                <img id="temp-icon" src="/modules/weatherfx/images/clearSky.webp" alt="heavyRain"></img>
+                                <span id="temp"> 68.7F</span>
+                            </div>
+                            <div id="high-low">
+                                <i class="fas fa-temperature-high" id="fa-icon"></i><span id="temp"> 78.8F</span><br>
+                                <i class="fas fa-temperature-low" id="fa-icon"></i><span id="temp"> 60.6F</span>
+                            </div>
+                            <div id="wind">
+                                <i class="fas fa-wind" id="fa-icon"></i><span id="temp"> Moderate Breeze</span><br>
+                                <i class="far fa-compass" id="fa-icon"></i><span id="temp"> SE</span>
+                            </div>
+                            <div id="weather-text">Clear conditions throughout the day.</div>
+                        </div>
+                        <div id="rightHandle"></div>
+                        </form>`;
+    const dragHandle = html.find('#dragHandle')
+    const formGroup = dragHandle.closest("form");
+    formGroup.after(injection);
+    html.find('#rightHandle').on('click', async function () {
+        if (!$('#weather-app').hasClass('show')) {
+            $('#weather-app').addClass('show');
+            $('#weather-app').animate({ width: '280px', left: "+=200" }, 80);
+            $("#smalltime-app .window-content").css("border-radius", "5px 0 0 5px")
+        } else {
+            $('#weather-app').removeClass('show');
+            $('#weather-app').animate({ width: '200px', left: "-=200" }, 80);
+            $("#smalltime-app .window-content").css("border-radius", "5px")
+            // await game.settings.set('weatherfx', 'show', false);
+        }
+    });
+    html.find('#timeDisplay').on('click', async function () {
+        let formerHeight = $("#smalltime-app").css("height");
+        await new Promise(resolve => setTimeout(resolve, 100));
+        let smalltimeHeight = $("#smalltime-app").css("height")
+        $("#weather-app").css("height", smalltimeHeight)
+        if (formerHeight > smalltimeHeight) $("#weather-text").css("display", "none")
+        else $("#weather-text").css("display", "unset")
+
+    });
+    const dateDisplayHidden = 'matrix(1, 0, 0, 0, 0, 0)';
+    if ($('#dateDisplay').css('transform') === dateDisplayHidden) {
+         $("#weather-text").css("display", "none")
+         $("#weather-app").css("height", $("#smalltime-app").css("height"))
+    }
+})
+
 Hooks.on('renderT', async function (app, html, data) {
     if (!isChatOutputOn()) {
         noChatOutputDialog();
     }
-    if (!game.settings.get("weatherfx", "currentWeather") )
+    if (!game.settings.get("weatherfx", "currentWeather"))
         await getPrecipitation();
 })
 
@@ -75,13 +133,13 @@ Hooks.on('renderSceneConfig', async (app, html) => {
         <p class="notes">Toggle auto-apply weather effects to the scene.</p>
       </div>
       </fieldset>`;
-      const weatherEffect = html.find('select[name="weather"]');
-      const formGroup = weatherEffect.closest(".form-group");
-      formGroup.after(injection);
-      app.setPosition({ height: "auto" });
+    const weatherEffect = html.find('select[name="weather"]');
+    const formGroup = weatherEffect.closest(".form-group");
+    formGroup.after(injection);
+    app.setPosition({ height: "auto" });
 })
 
-function defaultAutoApplyFlag(scene){
+function defaultAutoApplyFlag(scene) {
     if (!hasProperty(scene, 'data.flags.weatherfx.auto-apply')) {
         scene.setFlag('weatherfx', 'auto-apply', autoApply);
     }
@@ -138,13 +196,14 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 //  &&
                 // game.settings.get("", "enableWeatherFX"),
                 onClick: async () => {
-                    if (!game.settings.get("weatherfx", "currentWeather") )
-                        await getPrecipitation();
-                    if (isChatOutputOn()) {
-                        let currentWeather = game.settings.get("weatherfx", "currentWeather")
-                        checkWeather(currentWeather)
-                    }
-                    else noChatOutputDialog()
+                    await generateWeather();
+                    // if (!game.settings.get("weatherfx", "currentWeather") )
+                    //     await getPrecipitation();
+                    // if (isChatOutputOn()) {
+                    //     let currentWeather = game.settings.get("weatherfx", "currentWeather")
+                    //     checkWeather(currentWeather)
+                    // }
+                    // else noChatOutputDialog()
 
                 },
             }

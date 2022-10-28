@@ -1,0 +1,95 @@
+{
+    "queryCost": 24,
+    "latitude": -23.5058,
+    "longitude": -47.456,
+    "resolvedAddress": "Sorocaba, SP, Brasil",
+    "address": "Sorocaba",
+    "timezone": "America/Sao_Paulo",
+    "tzoffset": -3,
+    "days": [
+     {
+      "datetime": "2022-10-02",
+      "datetimeEpoch": 1664679600,
+      "tempmax": 78.8,
+      "tempmin": 60.6,
+      "temp": 68.7,
+      "feelslikemax": 78.8,
+      "feelslikemin": 60.6,
+      "feelslike": 68.7,
+      "dew": 58.2,
+      "humidity": 71.5,
+      "precip": 0,
+      "precipprob": 0,
+      "precipcover": 0,
+      "preciptype": null,
+      "snow": 0,
+      "snowdepth": 0,
+      "windgust": 18.6,
+      "windspeed": 17.2,
+      "winddir": 136.2,
+      "pressure": 1017.8,
+      "cloudcover": 7.5,
+      "visibility": 5.6,
+      "solarradiation": 305.8,
+      "solarenergy": 26.5,
+      "uvindex": 10,
+      "severerisk": 10,
+      "sunrise": "05:49:13",
+      "sunriseEpoch": 1664700553,
+      "sunset": "18:09:29",
+      "sunsetEpoch": 1664744969,
+      "moonphase": 0.22,
+      "conditions": "Clear",
+      "description": "Clear conditions throughout the day.",
+      "icon": "clear-day",
+      "stations": [
+       "SBKP",
+       "83721099999",
+       "86907099999"
+      ],
+      "source": "obs"
+     }
+    ],
+    "stations": {
+     "SBKP": {
+      "distance": 65437,
+      "latitude": -23,
+      "longitude": -47.13,
+      "useCount": 0,
+      "id": "SBKP",
+      "name": "SBKP",
+      "quality": 50,
+      "contribution": 0
+     },
+     "83721099999": {
+      "distance": 64493,
+      "latitude": -23.007,
+      "longitude": -47.134,
+      "useCount": 0,
+      "id": "83721099999",
+      "name": "VIRACOPOS, BR",
+      "quality": 49,
+      "contribution": 0
+     },
+     "86907099999": {
+      "distance": 15300,
+      "latitude": -23.433,
+      "longitude": -47.583,
+      "useCount": 0,
+      "id": "86907099999",
+      "name": "SOROCABA, BR",
+      "quality": 21,
+      "contribution": 0
+     },
+     "83851099999": {
+      "distance": 3412,
+      "latitude": -23.483,
+      "longitude": -47.433,
+      "useCount": 0,
+      "id": "83851099999",
+      "name": "SOROCABA, BR",
+      "quality": 53,
+      "contribution": 0
+     }
+    }
+   }

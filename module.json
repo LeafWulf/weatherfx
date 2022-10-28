@@ -43,7 +43,7 @@
     "scripts/lib/lib.js"
   ],
   "styles": [
-    "styles/module.css"
+    "styles/weatherfx.css"
   ],
   "languages": [
     {
