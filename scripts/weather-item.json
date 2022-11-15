@@ -18,13 +18,22 @@
         "img": "images/blizzard.webp"
     },
     {
-        "name": "Clear Skies",
+        "name": "Clear",
         "description": "<p>Clear bright light during day time, view of the stars and moon at night.</p>",
         "save": {
             "dc": null,
             "ability": ""
         },
         "img": "images/clearSky.webp"
+    },
+    {
+        "name": "Fair",
+        "description": "<p>Fair light during day time, view of the stars and moon at night, few cloud formations.</p>",
+        "save": {
+            "dc": null,
+            "ability": ""
+        },
+        "img": "images/fair.webp"
     },
     {
         "name": "Freezing Cold",
@@ -36,7 +45,7 @@
         "img": "images/freezingCold.webp"
     },
     {
-        "name": "Heavy Clouds",
+        "name": "Overcast",
         "description": "<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
         "save": {
             "dc": null,
@@ -45,13 +54,13 @@
         "img": "images/heavyClouds.webp"
     },
     {
-        "name": "Heavy Rain",
-        "description": "<p>Same as rain, but the DC becomes 16 to benefit from a long rest without shelter and if Heavy Rain occurs two days in a row wagon travel becomes impossible until one day without rain occurs. May cause flooding. All fire damage rolls have a –4. Lightning and Cold damage rolls gain a +2.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
+        "name": "Mostly Cloudy",
+        "description": "<p>The sky is mostly blocked. High flying aerial creatures have 3/4 cover. Checks using Navigation Tools to determine your location based on celestial observation have -2.</p>",
         "save": {
-            "dc": 16,
-            "ability": "con"
+            "dc": null,
+            "ability": ""
         },
-        "img": "images/heavyRain.webp"
+        "img": "images/heavyClouds.webp"
     },
     {
         "name": "High Winds",
@@ -63,7 +72,7 @@
         "img": "images/highWinds.webp"
     },
     {
-        "name": "Light Clouds",
+        "name": "Partly Cloudy",
         "description": "<p>Clear bright light during day time, view of the stars and moon at night.</p>",
         "save": {
             "dc": null,
@@ -72,13 +81,40 @@
         "img": "images/lightClouds.webp"
     },
     {
-        "name": "Rain",
-        "description": "<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 12 Constitution saving throw gain the benefits for a rest. All fire damage rolls have a –2.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
+        "name": "Moderate Freezing Rain",
+        "description": "<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 12 Constitution saving throw gain the benefits for a rest.</p>\n<p>Because the rain freezes when it reaches the ground, creating a thin layer of slippery ice, all outdoor terrain is difficult terrain.</p>\n<p>The sky is mostly blocked. High flying aerial creatures have 3/4 cover. Checks using Navigation Tools to determine your location based on celestial observation have -2.</p>",
         "save": {
             "dc": 12,
             "ability": "con"
         },
         "img": "images/rain.webp"
+    },
+    {
+        "name": "Heavy Freezing Rain",
+        "description": "<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 16 Constitution to benefit from a long rest without shelter and if Heavy Rain occurs two days in a row wagon travel becomes impossible until one day without rain occurs. May cause flooding.</p>\n<p>Because the rain freezes when it reaches the ground, creating a thin layer of slippery ice, all outdoor terrain is difficult terrain.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
+        "save": {
+            "dc": 16,
+            "ability": "con"
+        },
+        "img": "images/heavyRain.webp"
+    },
+    {
+        "name": "Moderate Rain",
+        "description": "<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 12 Constitution saving throw gain the benefits for a rest.</p>\n<p>The sky is mostly blocked. High flying aerial creatures have 3/4 cover. Checks using Navigation Tools to determine your location based on celestial observation have -2.</p>",
+        "save": {
+            "dc": 12,
+            "ability": "con"
+        },
+        "img": "images/rain.webp"
+    },
+    {
+        "name": "Heavy Rain",
+        "description": "<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 16 Constitution to benefit from a long rest without shelter and if Heavy Rain occurs two days in a row wagon travel becomes impossible until one day without rain occurs. May cause flooding.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>",
+        "save": {
+            "dc": 16,
+            "ability": "con"
+        },
+        "img": "images/heavyRain.webp"
     },
     {
         "name": "Scorching Heat",
@@ -100,7 +136,7 @@
     },
     {
         "name": "Thunderstorm",
-        "description": "<p>Lightning flashes and thunder crashes. All creatures are partially obscured if they are more than 20 feet from you.</p>\n<p>If you travel for 4 or more hours during a Thunderstorm, roll a [[/r 2d100kh #On a 1, you are struck by a lightning bolt dealing 3d12 lightning damage.]]. On a 1, you are struck by a lightning bolt dealing [[/r 3d12 #lightning damage]] lightning damage.</p>\n<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 12 Constitution saving throw gain the benefits for a rest. All fire damage rolls have a –2.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>\n<p>Turbulent gusts sweep across the land.<br>Select a wind direction based on locale or roll a [[/r 1d4 #Wind Direction: 1 - North, 2 - East, 3 - South, 4 - West]].</p>\n<p>Flying creatures gain +10 movement speed when moving with the wind, and –10 movement speed when moving against it. All ranged weapon attacks have a –2 to attack rolls, and their range is reduced by half when shooting into the wind.</p>",
+        "description": "<p>Lightning flashes and thunder crashes. All creatures are partially obscured if they are more than 20 feet from you.</p>\n<p>If you travel for 4 or more hours during a Thunderstorm, roll a [[/r 2d100kh #On a 1, you are struck by a lightning bolt dealing 3d12 lightning damage.]]. On a 1, you are struck by a lightning bolt dealing [[/r 3d12 #lightning damage]] lightning damage.</p>\n<p>Unpleasant to travel in. If you have wagons, your travel pace is slowed by half. If you attempt to take a rest without cover, you must make a DC 12 Constitution saving throw gain the benefits for a rest.</p>\n<p>The sky is blocked. High flying aerial creatures have total cover, and outdoor light does not count as sunlight (for the purposes of sunlight sensitivity and similar traits). Checks using Navigation Tools to determine your location based on celestial observation are made with disadvantage.</p>\n<p>Turbulent gusts sweep across the land.<br>Select a wind direction based on locale or roll a [[/r 1d4 #Wind Direction: 1 - North, 2 - East, 3 - South, 4 - West]].</p>\n<p>Flying creatures gain +10 movement speed when moving with the wind, and –10 movement speed when moving against it. All ranged weapon attacks have a –2 to attack rolls, and their range is reduced by half when shooting into the wind.</p>",
         "save": {
             "dc": null,
             "ability": ""

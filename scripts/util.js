@@ -1,5 +1,13 @@
 import { MODULE, MODULE_DIR, JSON_ITEM } from "./const.js"; //import the const variables
 
+export async function getKeyByVal(obj, val) {
+    let valuesArray = Object.values(obj)
+    let keysArray = Object.keys(obj)
+    for (var i = 0; i < valuesArray.length; i++)
+        if (valuesArray[i] == val)
+            return keysArray[i]
+}
+
 export function removeTags(str) { //function to remove html tags from the message string
     if ((str === null) || (str === ''))
         return false;

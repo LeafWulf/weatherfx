@@ -1,5 +1,6 @@
-import { particleWeather, getPrecipitation, checkWeather, noChatOutputDialog, isChatOutputOn, weatherfxPlaylist } from "./weatherfx.js"
 import { MODULE, playlistName } from "./const.js";
+import { particleWeather, weatherfxPlaylist } from "./weatherfx.js"
+import { getPrecipitation, isChatOutputOn, noChatOutputDialog, checkWeather } from "./wc-fn.js"
 
 export async function firstTime() {
     Hooks.call(particleWeather, []);

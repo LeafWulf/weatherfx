@@ -32,7 +32,7 @@ export function generatePlaylist(playlistName) {
     });
 }
 
-export async function addSound(trackName, fileName) {
+export async function addSound(trackName, fileName = '') {
     let playlist = game.playlists?.contents.find((p) => p.name === playlistName);
     await playlist.createEmbeddedDocuments(
         'PlaylistSound',

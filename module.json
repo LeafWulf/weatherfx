@@ -28,11 +28,6 @@
         "id": "fxmaster",
         "type": "module",
         "compatibility": {}
-      },
-      {
-        "id": "weather-control",
-        "type": "module",
-        "compatibility": {}
       }
     ]
   },
