@@ -1,4 +1,4 @@
-import { blizzardSound, rainSound, thunderstormSound, heavyRainSound } from "./settings.js"; //imports settings variables, necessary because they go inside eval(effectName + 'Sound')
+import { blizzardSound, rainSound, thunderstormSound, heavyRainSound, currentWeather } from "./settings.js"; //imports settings variables, necessary because they go inside eval(effectName + 'Sound')
 
 // Weather Effect class
 export class Effect {
@@ -54,40 +54,80 @@ export function createEffect(effectName) {
     }
 }
 
-const ashes = {
-    "type": "leaves",
+const lightSnow = {
+    "type": "snow",
     "options": {
-        "scale": 0.4,
-        "speed": 1,
-        "lifetime": 1,
-        "density": 0.4,
+        "scale": 0.5,
+        "direction": 180,
+        "speed": 0.1,
+        "lifetime": 0.5,
+        "density": 0.025,
         "tint": {
-            "apply": true,
-            "value": "#000000"
+            "apply": false,
+            "value": "#ffffff"
         }
     }
 }
-const grayFog = {
+const lightRain = {
+    "type": "raintop",
+    "options": {
+        "scale": 1.3,
+        "speed": 1.8,
+        "lifetime": 1.2,
+        "density": 0.025,
+        "tint": {
+            "apply": false,
+            "value": "#ffffff"
+        }
+    }
+}
+const lightFog = {
     "type": "fog",
     "options": {
         "scale": 1,
         "speed": 1,
         "lifetime": 1,
-        "density": 0.05,
+        "density": 0.01,
         "tint": {
-            "apply": true,
-            "value": "#8f8f8f"
+            "apply": false,
+            "value": "#ffffff"
         }
     }
 }
-const blizzard = {
-    "type": "snowstorm",
+const moderateRain = {
+    "type": "raintop",
     "options": {
-        "scale": 0.7,
-        "direction": 180,
-        "speed": 3,
-        "lifetime": 0.7,
+        "scale": 1.3,
+        "speed": 1.8,
+        "lifetime": 1.2,
         "density": 0.5,
+        "tint": {
+            "apply": false,
+            "value": "#ffffff"
+        }
+    }
+}
+const moderateClouds = {
+    "type": "clouds",
+    "options": {
+        "scale": 1,
+        "direction": 180,
+        "speed": 1,
+        "lifetime": 1,
+        "density": 0.03,
+        "tint": {
+            "apply": false,
+            "value": "#ffffff"
+        }
+    }
+}
+const moderateFog = {
+    "type": "fog",
+    "options": {
+        "scale": 1,
+        "speed": 1,
+        "lifetime": 1,
+        "density": 0.01,
         "tint": {
             "apply": false,
             "value": "#ffffff"
@@ -121,6 +161,85 @@ const snowFog = {
         }
     }
 }
+const snowFall = {
+    "type": "snow",
+    "options": {
+        "scale": 0.5,
+        "direction": 180,
+        "speed": 0.1,
+        "lifetime": 0.5,
+        "density": 0.5,
+        "tint": {
+            "apply": false,
+            "value": "#ffffff"
+        }
+    }
+}
+const heavyClouds = {
+    "type": "clouds",
+    "options": {
+        "scale": 3,
+        "direction": 180,
+        "speed": 1.5,
+        "lifetime": 2,
+        "density": 0.05,
+        "tint": {
+            "apply": true,
+            "value": "#787878"
+        }
+    }
+}
+const heavyRain = {
+    "type": "raintop",
+    "options": {
+        "scale": 1.5,
+        "speed": 1.8,
+        "lifetime": 0.7,
+        "density": 0.6,
+        "tint": {
+            "apply": false,
+            "value": "#ffffff"
+        }
+    }
+}
+const lightning = {
+    "type": "lightning",
+    "options": {
+        "frequency": 1000,
+        "spark_duration": 500,
+        "brightness": 1.3
+    }
+}
+
+const blizzard = {
+    "type": "snowstorm",
+    "options": {
+        "scale": 0.7,
+        "direction": 180,
+        "speed": 3,
+        "lifetime": 0.7,
+        "density": 0.5,
+        "tint": {
+            "apply": false,
+            "value": "#ffffff"
+        }
+    }
+}
+const hail = {
+    "type": "snowstorm",
+    "options": {
+        "scale": 3,
+        "direction": 60,
+        "speed": 1.2,
+        "lifetime": 0.1,
+        "density": 0.05,
+        "tint": {
+            "apply": true,
+            "value": "#bee0ee"
+        }
+    }
+}
+
 const hotClimate = {
     "type": "color",
     "options": {
@@ -148,46 +267,6 @@ const coldClimate = {
         "gamma": 1
     }
 }
-const heavyRain = {
-    "type": "raintop",
-    "options": {
-        "scale": 1.5,
-        "speed": 1.8,
-        "lifetime": 0.7,
-        "density": 0.6,
-        "tint": {
-            "apply": false,
-            "value": "#ffffff"
-        }
-    }
-}
-const heavyClouds = {
-    "type": "clouds",
-    "options": {
-        "scale": 3,
-        "direction": 180,
-        "speed": 1.5,
-        "lifetime": 2,
-        "density": 0.05,
-        "tint": {
-            "apply": true,
-            "value": "#787878"
-        }
-    }
-}
-const moderateFog = {
-    "type": "fog",
-    "options": {
-        "scale": 1,
-        "speed": 1,
-        "lifetime": 1,
-        "density": 0.01,
-        "tint": {
-            "apply": false,
-            "value": "#ffffff"
-        }
-    }
-}
 const darkClimate = {
     "type": "color",
     "options": {
@@ -202,16 +281,17 @@ const darkClimate = {
         "red": 0.8196078431372549, "green": 0.8196078431372549, "blue": 0.8196078431372549
     }
 }
-const moderateRain = {
-    "type": "raintop",
+
+const grayFog = {
+    "type": "fog",
     "options": {
-        "scale": 1.3,
-        "speed": 1.8,
-        "lifetime": 1.2,
-        "density": 0.5,
+        "scale": 1,
+        "speed": 1,
+        "lifetime": 1,
+        "density": 0.05,
         "tint": {
-            "apply": false,
-            "value": "#ffffff"
+            "apply": true,
+            "value": "#8f8f8f"
         }
     }
 }
@@ -229,93 +309,16 @@ const grayClouds = {
         }
     }
 }
-const lightFog = {
-    "type": "fog",
+const ashes = {
+    "type": "leaves",
     "options": {
-        "scale": 1,
+        "scale": 0.4,
         "speed": 1,
         "lifetime": 1,
-        "density": 0.01,
-        "tint": {
-            "apply": false,
-            "value": "#ffffff"
-        }
-    }
-}
-const snowFall = {
-    "type": "snow",
-    "options": {
-        "scale": 0.5,
-        "direction": 180,
-        "speed": 0.1,
-        "lifetime": 0.5,
-        "density": 0.5,
-        "tint": {
-            "apply": false,
-            "value": "#ffffff"
-        }
-    }
-}
-const lightSnow = {
-    "type": "snow",
-    "options": {
-        "scale": 0.5,
-        "direction": 180,
-        "speed": 0.1,
-        "lifetime": 0.5,
-        "density": 0.025,
-        "tint": {
-            "apply": false,
-            "value": "#ffffff"
-        }
-    }
-}
-const lightRain = {
-    "type": "raintop",
-    "options": {
-        "scale": 1.3,
-        "speed": 1.8,
-        "lifetime": 1.2,
-        "density": 0.025,
-        "tint": {
-            "apply": false,
-            "value": "#ffffff"
-        }
-    }
-}
-const moderateClouds = {
-    "type": "clouds",
-    "options": {
-        "scale": 1,
-        "direction": 180,
-        "speed": 1,
-        "lifetime": 1,
-        "density": 0.03,
-        "tint": {
-            "apply": false,
-            "value": "#ffffff"
-        }
-    }
-}
-const lightning = {
-    "type": "lightning",
-    "options": {
-        "frequency": 1000,
-        "spark_duration": 500,
-        "brightness": 1.3
-    }
-}
-const hail = {
-    "type": "snowstorm",
-    "options": {
-        "scale": 3,
-        "direction": 60,
-        "speed": 1.2,
-        "lifetime": 0.1,
-        "density": 0.05,
+        "density": 0.4,
         "tint": {
             "apply": true,
-            "value": "#bee0ee"
+            "value": "#000000"
         }
     }
 }

@@ -23,9 +23,9 @@ The GM is able to disable Weather FX in any scene. This is useful to prevent to 
 ![sceneconfig](./readme/seceneconfig.png)
 
 ## Settings
-**Weather Source**
-*Default: Weather Control*
-Now Weather FX also supports SmallWeather, you only have to select it in the module settings and save.
+**Weather Source**  
+*Default: Weather Control*  
+Now Weather FX also supports SmallWeather, you only have to select it in the module settings and save.  
 
 **Automatic Apply**  
 *Default: active*  
