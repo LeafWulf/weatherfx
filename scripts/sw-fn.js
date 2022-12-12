@@ -1,5 +1,5 @@
 import { MODULE } from "./const.js";
-import { cacheSettings, currentWeather, weatherSource, debug, topDownRain } from "./settings.js";
+import { cacheSettings, currentWeather, weatherSource, debug, topDownRain, setCloudShadows } from "./settings.js";
 import { weatherEffects } from "./weatherfx.js";
 import { createEffect, Effect } from "./effect.js"
 
@@ -66,8 +66,19 @@ async function createWeatherEffect(weather) {
             "red": 0.8196078431372549, "green": 0.8196078431372549, "blue": 0.8196078431372549
         }
     }
+    const cloudShadows = {
+        "type": "clouds", "options": {
+            "scale": 5, //((game.scenes.current.width * 0.000576923) + 0.476923).toFixed(3), // min 0.1 max 5
+            "direction": parseInt(adjustAngle(weather.winddir - 90)),
+            "speed": convertWindSpeed(weather.windspeed).toFixed(2), // 0.1 to 5
+            "lifetime": 1, //
+            "density": ((weather.cloudcover / 100) * 0.005).toFixed(3), // from 0.001 to 0.2, should rework this to the max of 0.005
+            "tint": { "apply": true, "value": '#050505' }
+        }
+    }
+    if (!setCloudShadows) particles.push(clouds)
+    else particles.push(cloudShadows)
 
-    particles.push(clouds)
     if (weather.cloudcover > 90)
         filters.push(overcast)
 
@@ -180,7 +191,7 @@ function adjustAngle(angle) {
 }
 
 function convertWindSpeed(input) {
-    return (input / 30) + 0.1;
+    return (input / 50) + 0.1;
 }
 
 function cloudColor(cloudCover, precip) {

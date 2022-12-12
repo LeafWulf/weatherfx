@@ -9,6 +9,7 @@ export let debug = false
 
 export let topDownRain = true
 export let instantApply = false
+export let setCloudShadows = false
 
 export let weatherSource = 'weather-control'
 
@@ -38,19 +39,6 @@ export function registerSettings() {
         },
     });
 
-    game.settings.register(MODULE, 'instantApply', {
-        name: 'Instant Apply',
-        hint: `If checked the module will instantly apply the new weather, meaning it will reload the current scene so you won't have to wait the transitions between different weathers.`,
-        scope: 'world',
-        config: true,
-        type: Boolean,
-        default: instantApply,
-        restricted: true,
-        onChange: () => {
-            cacheSettings();
-        },
-    });
-
     game.settings.register(MODULE, 'autoApply', {
         name: 'Automatic Apply',
         hint: `Check this option if you would like to have weather effects automatic applied to the current scene.`,
@@ -64,6 +52,19 @@ export function registerSettings() {
         },
     });
 
+    game.settings.register(MODULE, 'instantApply', {
+        name: 'Instant Apply',
+        hint: `If checked the module will instantly apply the new weather, meaning it will reload the current scene so you won't have to wait the transitions between different weathers.`,
+        scope: 'world',
+        config: true,
+        type: Boolean,
+        default: instantApply,
+        restricted: true,
+        onChange: () => {
+            cacheSettings();
+        },
+    });
+
     game.settings.register(MODULE, 'topDownRain', {
         name: 'Top-Down Rain',
         hint: `Check this option if you would like to use top-down rain, otherwise the module will apply Foundry's default rain effect. This works only with smallweather at the momemnt.`,
@@ -71,6 +72,19 @@ export function registerSettings() {
         config: true,
         type: Boolean,
         default: topDownRain,
+        restricted: true,
+        onChange: () => {
+            cacheSettings();
+        },
+    });
+
+    game.settings.register(MODULE, 'setCloudShadows', {
+        name: 'Larger Cloud Shadows',
+        hint: `Check this option if you would like to see cloud shadows instead of the clouds, this setting will apply large cloud shadows to the scene.`,
+        scope: 'world',
+        config: true,
+        type: Boolean,
+        default: setCloudShadows,
         restricted: true,
         onChange: () => {
             cacheSettings();
@@ -217,4 +231,5 @@ export function cacheSettings() {
     weatherSource = game.settings.get(MODULE, 'weatherSource');
     debug = game.settings.get(MODULE, 'debug');
     topDownRain = game.settings.get(MODULE, 'topDownRain');
+    setCloudShadows = game.settings.get(MODULE, 'setCloudShadows');
 }
