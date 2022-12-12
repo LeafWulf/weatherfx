@@ -7,7 +7,7 @@ export class Effect {
         this.type = type
         this.hasSound = hasSound
         this.sound = sound
-        this.soundName = soundName // gambiarra por enquanto.
+        this.soundName = soundName // gambiarra por enquanto. não lembro pra que serve mais
         this.effectsArray = effectsArray
         this.filtersArray = filtersArray
     }

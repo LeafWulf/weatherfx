@@ -1,6 +1,6 @@
 import { MODULE, playlistName } from "./const.js";
 import { getKeyByVal } from "./util.js"
-import { registerSettings, cacheSettings, enableSound, autoApply, enableHB, blizzardSound, rainSound, heavyRainSound, thunderstormSound, weatherSource, currentWeather } from "./settings.js"; //import settings variables and function that register those settings.
+import { registerSettings, cacheSettings, enableSound, autoApply, instantApply, enableHB, blizzardSound, rainSound, heavyRainSound, thunderstormSound, weatherSource, currentWeather } from "./settings.js"; //import settings variables and function that register those settings.
 import { createEffect } from "./effect.js"; //import function that create the effects
 import { generatePlaylist, addSound } from "./playlist.js"
 import { firstTime } from "./patchPlaylist.js";
@@ -35,6 +35,12 @@ Hooks.once('ready', async function () {
     }
     await weatherControlHooks();
     await weatherfxPlaylistExists();
+});
+
+Hooks.on('ready', async function () {
+    game.socket.on('module.weatherfx', async (data) => {
+        await doSocket(data);
+    });
 });
 
 Hooks.on('canvasReady', async function () {
@@ -97,9 +103,9 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                 onClick: () => {
                     clearEffects()
                     if (weatherSource === 'smallweather')
-                    ChatMessage.create({ speaker: { alias: 'Weather FX: ' }, content: "Weather effects for: " + game.settings.get("weatherfx", "currentWeather").conditions + " <b style='color:red'>removed</b>", whisper: ChatMessage.getWhisperRecipients("GM") });
+                        ChatMessage.create({ speaker: { alias: 'Weather FX: ' }, content: "Weather effects for: " + game.settings.get("weatherfx", "currentWeather").conditions + " <b style='color:red'>removed</b>", whisper: ChatMessage.getWhisperRecipients("GM") });
                     else
-                    ChatMessage.create({ speaker: { alias: 'Weather FX: ' }, content: "Weather effects for: " + game.settings.get("weatherfx", "currentWeather") + " <b style='color:red'>removed</b>", whisper: ChatMessage.getWhisperRecipients("GM") });
+                        ChatMessage.create({ speaker: { alias: 'Weather FX: ' }, content: "Weather effects for: " + game.settings.get("weatherfx", "currentWeather") + " <b style='color:red'>removed</b>", whisper: ChatMessage.getWhisperRecipients("GM") });
                 },
             },
             {
@@ -120,7 +126,7 @@ Hooks.on("getSceneControlButtons", (controls, b, c) => {
                             checkWeather(currentWeather)
                         }
                         else noChatOutputDialog()
-                    } else if (weatherSource === 'smallweather' && game.modules.get('smallweather').active){
+                    } else if (weatherSource === 'smallweather' && game.modules.get('smallweather').active) {
                         await smallWeatherString(currentWeather)
                     }
                 },
@@ -172,6 +178,7 @@ export async function weatherEffects(effectCondition) {
         let sound = playlist.sounds.getName(effectCondition.soundName);
         playlist.playSound(sound);
     }
+    if (instantApply) await instantWeather();
 
     if (effectCondition.type == '' || !dnd5e || !enableHB)
         return;
@@ -192,6 +199,7 @@ async function clearEffects() {
             playlist.stopSound(sound);
         }
     }
+    if (instantApply) await instantWeather();
 }
 
 async function weatherfxPlaylistExists() {
@@ -206,4 +214,25 @@ export async function weatherfxPlaylist(playlistName) {
     await addSound('rain', rainSound);
     await addSound('heavyRain', heavyRainSound);
     await addSound('thunderstorm', thunderstormSound);
+}
+
+// Helper function for handling sockets.
+function emitSocket(type, payload) {
+    game.socket.emit('module.weatherfx', {
+        type: type,
+        payload: payload,
+    });
+}
+async function doSocket(data) {
+    if (data.type === 'instantWeather') {
+        await instantWeatherPlayer();
+    }
+}
+async function instantWeatherPlayer() {
+    await canvas.draw()
+}
+async function instantWeather() {
+    await new Promise(resolve => setTimeout(resolve, 800));
+    await canvas.draw()
+    emitSocket('instantWeather');
 }

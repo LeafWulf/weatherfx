@@ -7,6 +7,9 @@ export let enableSound = false;
 export let currentWeather = null
 export let debug = false
 
+export let topDownRain = true
+export let instantApply = false
+
 export let weatherSource = 'weather-control'
 
 export let blizzardSound = 'modules/michaelghelfi/ambience/Snowing.ogg';
@@ -35,6 +38,19 @@ export function registerSettings() {
         },
     });
 
+    game.settings.register(MODULE, 'instantApply', {
+        name: 'Instant Apply',
+        hint: `If checked the module will instantly apply the new weather, meaning it will reload the current scene so you won't have to wait the transitions between different weathers.`,
+        scope: 'world',
+        config: true,
+        type: Boolean,
+        default: instantApply,
+        restricted: true,
+        onChange: () => {
+            cacheSettings();
+        },
+    });
+
     game.settings.register(MODULE, 'autoApply', {
         name: 'Automatic Apply',
         hint: `Check this option if you would like to have weather effects automatic applied to the current scene.`,
@@ -42,6 +58,19 @@ export function registerSettings() {
         config: true,
         type: Boolean,
         default: true,
+        restricted: true,
+        onChange: () => {
+            cacheSettings();
+        },
+    });
+
+    game.settings.register(MODULE, 'topDownRain', {
+        name: 'Top-Down Rain',
+        hint: `Check this option if you would like to use top-down rain, otherwise the module will apply Foundry's default rain effect. This works only with smallweather at the momemnt.`,
+        scope: 'world',
+        config: true,
+        type: Boolean,
+        default: topDownRain,
         restricted: true,
         onChange: () => {
             cacheSettings();
@@ -177,6 +206,7 @@ export function registerSettings() {
 export function cacheSettings() {
     toggleApp = game.settings.get(MODULE, 'toggleApp');
     autoApply = game.settings.get(MODULE, 'autoApply');
+    instantApply = game.settings.get(MODULE, 'instantApply');
     enableHB = game.settings.get(MODULE, 'enableHB');
     enableSound = game.settings.get(MODULE, 'enableSound');
     blizzardSound = game.settings.get(MODULE, 'blizzardSound');
@@ -186,4 +216,5 @@ export function cacheSettings() {
     currentWeather = game.settings.get(MODULE, 'currentWeather');
     weatherSource = game.settings.get(MODULE, 'weatherSource');
     debug = game.settings.get(MODULE, 'debug');
+    topDownRain = game.settings.get(MODULE, 'topDownRain');
 }
