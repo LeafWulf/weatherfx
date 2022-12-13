@@ -1,6 +1,6 @@
-import { MODULE } from "./const.js";
-import { cacheSettings, currentWeather, weatherSource, debug, topDownRain, setCloudShadows } from "./settings.js";
-import { weatherEffects } from "./weatherfx.js";
+import { MODULE } from "./const.js"
+import { cacheSettings, currentWeather, weatherSource, debug, topDownRain, setCloudShadows } from "./settings.js"
+import { weatherEffects } from "./weatherfx.js"
 import { createEffect, Effect } from "./effect.js"
 
 export async function smallWeatherString(weather, hourly) {
@@ -14,8 +14,8 @@ export async function smallWeatherString(weather, hourly) {
 
 export async function checkWeatherSW(effectName) {
     effectName.forEach(async (element) => {
-        await weatherEffects(createEffect(element));
-    });
+        await weatherEffects(createEffect(element))
+    })
 }
 
 async function createWeatherEffect(weather) {
@@ -56,14 +56,13 @@ async function createWeatherEffect(weather) {
             "tint": { "apply": true, "value": cloudColor(weather.cloudcover, precipitation) }
         }
     }
-    const overcast = {
+    const overcast = { //remover?
         "type": "color", "options": {
             "color": { "apply": true, "value": "#d1d1d1" },
             "saturation": 0.8,
             "contrast": 1,
             "brightness": 0.9,
-            "gamma": 1,
-            "red": 0.8196078431372549, "green": 0.8196078431372549, "blue": 0.8196078431372549
+            "gamma": 1
         }
     }
     const cloudShadows = {
@@ -79,7 +78,7 @@ async function createWeatherEffect(weather) {
     if (!setCloudShadows) particles.push(clouds)
     else particles.push(cloudShadows)
 
-    if (weather.cloudcover > 90)
+    if (weather.cloudcover > 90 /* && !setCloudShadows */)
         filters.push(overcast)
 
     if (precipitation <= 4) {
@@ -100,7 +99,7 @@ async function createWeatherEffect(weather) {
                 }
                 filters.push(lightning)
             }
-        const rainMist = { "type": "fog", "options": { "dimensions": 0.3, "speed": 1, "density": 0.2, "color": { "apply": false, "value": "#000000" } } }
+        const rainMist = { "type": "fog", "options": { "dimensions": 0.3, "speed": 1, "density": 0.2, "color": { "apply": false, "value": "#000000" } } } //remover?
         if (!isSnow)
             filters.push(rainMist)
     }
@@ -120,7 +119,7 @@ async function createWeatherEffect(weather) {
             "direction": rainAngle(adjustAngle(weather.winddir - 90)),
             "speed": rainSpeed.toFixed(2),
             "lifetime": 1,
-            "density": 1,
+            "density": (rainScale + 0.1).toFixed(2), // 1,
             "tint": { "apply": false, "value": "#ffffff" }
         }
     }
