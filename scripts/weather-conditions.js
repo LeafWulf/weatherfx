@@ -4,7 +4,7 @@ import { MODULE_DIR, JSON_ITEM } from "./const.js";
 export async function weatherRoll(item) {
     // item.use();
     let weatherArray = await jsonItem();
-    let weather = weatherArray.find(i => i.name === item)
+    let weather = weatherArray.find(i => i.id.includes(item))
     let saveButton = ''
     if (weather.save.dc != null) {
         saveButton = `<div class="card-buttons">

@@ -1,6 +1,6 @@
 import { MODULE, playlistName } from "./const.js";
 import { getKeyByVal } from "./util.js"
-import { registerSettings, cacheSettings, enableSound, autoApply, instantApply, enableHB, blizzardSound, rainSound, heavyRainSound, thunderstormSound, weatherSource, currentWeather } from "./settings.js"; //import settings variables and function that register those settings.
+import { registerSettings, cacheSettings, enableSound, autoApply, instantApply, linkWeatherToGI, enableHB, blizzardSound, rainSound, heavyRainSound, thunderstormSound, weatherSource, currentWeather } from "./settings.js"; //import settings variables and function that register those settings.
 import { createEffect } from "./effect.js"; //import function that create the effects
 import { generatePlaylist, addSound } from "./playlist.js"
 import { firstTime } from "./patchPlaylist.js";
@@ -82,7 +82,8 @@ Hooks.on('smallweatherUpdate', async function (weather, hourly) {
     // await game.settings.set(MODULE, "currentWeather", currentWeather)
     // cacheSettings();
     let sceneAutoApply = game.scenes.viewed.getFlag('weatherfx', 'auto-apply') ? true : false;
-    if (autoApply && sceneAutoApply) await smallWeatherString(weather, hourly)
+    if (!linkWeatherToGI || canvas.scene.globalLight)
+        if (autoApply && sceneAutoApply) await smallWeatherString(weather, hourly)
     await game.settings.set(MODULE, 'currentWeather', weather)
 })
 
@@ -183,7 +184,7 @@ export async function weatherEffects(effectCondition) {
     if (effectCondition.type == '' || !dnd5e || !enableHB)
         return;
     else
-        return weatherRoll(effectCondition.type);
+        return weatherRoll(effectCondition.id);
 }
 
 // remove all the current fx on the canvas, also stops all the sounds effects that matches the flag weatherfx.audio

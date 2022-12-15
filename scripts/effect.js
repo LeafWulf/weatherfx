@@ -2,9 +2,9 @@ import { blizzardSound, rainSound, thunderstormSound, heavyRainSound, currentWea
 
 // Weather Effect class
 export class Effect {
-    constructor(name, type, hasSound, sound, soundName, effectsArray, filtersArray) {
+    constructor(name, id, hasSound, sound, soundName, effectsArray, filtersArray) {
         this.name = name
-        this.type = type
+        this.id = id
         this.hasSound = hasSound
         this.sound = sound
         this.soundName = soundName // gambiarra por enquanto. não lembro pra que serve mais
@@ -17,39 +17,39 @@ export class Effect {
 export function createEffect(effectName) {
     let effectCondition = {};
     switch (effectName) {
-        case 'clear': return effectCondition = new Effect(effectName, 'Clear', false, '', '', [], [])
-        case 'fair': return effectCondition = new Effect(effectName, 'Fair', false, '', '', [lightFog], [])
-        case 'partlyCloudy': return effectCondition = new Effect(effectName, 'Partly Cloudy', false, '', '', [moderateClouds], [])
-        case 'mostlyCloudy': return effectCondition = new Effect(effectName, 'Mostly Cloudy', false, '', '', [heavyClouds], [])
-        case 'overcast': return effectCondition = new Effect(effectName, 'Overcast', false, '', '', [grayClouds], [])
+        case 'clear': return effectCondition = new Effect(effectName, 'clear', false, '', '', [], [])
+        case 'fair': return effectCondition = new Effect(effectName, 'fair', false, '', '', [lightFog], [])
+        case 'partlyCloudy': return effectCondition = new Effect(effectName, 'partlyCloudy', false, '', '', [moderateClouds], [])
+        case 'mostlyCloudy': return effectCondition = new Effect(effectName, 'mostlyCloudy', false, '', '', [heavyClouds], [])
+        case 'overcast': return effectCondition = new Effect(effectName, 'overcast', false, '', '', [grayClouds], [])
 
         case 'drizzle': return effectCondition = new Effect(effectName, '', false, '', '', [lightRain], [])
         case 'snowGrains': return effectCondition = new Effect(effectName, '', false, '', '', [lightSnow, snowClouds], [coldClimate])
 
         case 'lightRain': return effectCondition = new Effect(effectName, '', false, '', '', [lightRain, lightFog], [])
-        case 'moderateRain': return effectCondition = new Effect(effectName, 'Moderate Rain', true, 'rainSound', 'rain', [moderateRain, lightFog], [])
-        case 'heavyRain': return effectCondition = new Effect(effectName, 'Heavy Rain', true, eval(effectName + 'Sound'), 'heavyRain', [heavyRain, moderateFog], [darkClimate])
+        case 'moderateRain': return effectCondition = new Effect(effectName, 'moderateRain', true, 'rainSound', 'rain', [moderateRain, lightFog], [])
+        case 'heavyRain': return effectCondition = new Effect(effectName, 'heavyRain', true, eval(effectName + 'Sound'), 'heavyRain', [heavyRain, moderateFog], [darkClimate])
 
         case 'lightFreezingRain': return effectCondition = new Effect(effectName, '', false, '', '', [lightRain, lightFog], [coldClimate])
         case 'moderateFreezingRain': return effectCondition = new Effect(effectName, 'Moderate Freezing Rain', true, 'rainSound', 'rain', [moderateRain, lightFog], [coldClimate])
-        case 'heavyFreezingRain': return effectCondition = new Effect(effectName, 'Heavy Freezing Rain', true, 'heavyRainSound', 'heavyRain', [heavyRain, moderateFog], [coldClimate])
+        case 'heavyFreezingRain': return effectCondition = new Effect(effectName, 'heavyFreezingRain', true, 'heavyRainSound', 'heavyRain', [heavyRain, moderateFog], [coldClimate])
 
         case 'lightSnow': return effectCondition = new Effect(effectName, '', false, '', '', [lightSnow, snowClouds, snowFog], [])
-        case 'moderateSnow': return effectCondition = new Effect(effectName, 'Snow', false, '', '', [snowFall, snowClouds, snowFog], [coldClimate])
-        case 'heavySnow': return effectCondition = new Effect(effectName, 'Snow', false, '', '', [snowFall, snowClouds, snowFog], [coldClimate])
-        case 'blizzard': return effectCondition = new Effect(effectName, 'Blizzard', true, eval(effectName + 'Sound'), 'blizzard', [blizzard, snowClouds, snowFog], [coldClimate])
+        case 'moderateSnow': return effectCondition = new Effect(effectName, 'snow', false, '', '', [snowFall, snowClouds, snowFog], [coldClimate])
+        case 'heavySnow': return effectCondition = new Effect(effectName, 'snow', false, '', '', [snowFall, snowClouds, snowFog], [coldClimate])
+        case 'blizzard': return effectCondition = new Effect(effectName, 'blizzard', true, eval(effectName + 'Sound'), 'blizzard', [blizzard, snowClouds, snowFog], [coldClimate])
 
-        case 'thunderstorm': return effectCondition = new Effect(effectName, 'Thunderstorm', true, eval(effectName + 'Sound'), 'thunderstorm', [heavyRain, heavyClouds, moderateFog], [darkClimate, lightning])
+        case 'thunderstorm': return effectCondition = new Effect(effectName, 'thunderstorm', true, eval(effectName + 'Sound'), 'thunderstorm', [heavyRain, heavyClouds, moderateFog], [darkClimate, lightning])
 
-        case 'hail': return effectCondition = new Effect(effectName, 'Hail', false, eval(effectName + 'Sound'), '', [hail, heavyRain, heavyClouds, moderateFog], [darkClimate])
+        case 'hail': return effectCondition = new Effect(effectName, 'hail', false, eval(effectName + 'Sound'), '', [hail, heavyRain, heavyClouds, moderateFog], [darkClimate])
 
-        case 'fireyRain': return effectCondition = new Effect(effectName, 'Scorching Heat', false, '', '', [], [])    
-        case 'ashfall': return effectCondition = new Effect(effectName, 'Ashfall', false, '', '', [ashes, grayFog], [])
-        case 'sunAsh': return effectCondition = new Effect(effectName, 'Ashfall', false, '', '', [ashes, grayFog], [darkClimate])
-        case 'darkSky': return effectCondition = new Effect(effectName, 'Overcast', false, '', '', [heavyClouds], [darkClimate])
-        case 'overcastFreezing': return effectCondition = new Effect(effectName, 'Overcast', false, '', '', [lightRain, grayClouds], [coldClimate])
-        case 'overcastDrizzle': return effectCondition = new Effect(effectName, 'Overcast', false, '', '', [lightRain, grayClouds], [])
-        case 'overcastSnow': return effectCondition = new Effect(effectName, 'Freezing Cold', false, '', '', [lightSnow, snowClouds], [coldClimate])
+        case 'fireyRain': return effectCondition = new Effect(effectName, 'scorchingHeat', false, '', '', [], [])    
+        case 'ashfall': return effectCondition = new Effect(effectName, 'ashfall', false, '', '', [ashes, grayFog], [])
+        case 'sunAsh': return effectCondition = new Effect(effectName, 'ashfall', false, '', '', [ashes, grayFog], [darkClimate])
+        case 'darkSky': return effectCondition = new Effect(effectName, 'overcast', false, '', '', [heavyClouds], [darkClimate])
+        case 'overcastFreezing': return effectCondition = new Effect(effectName, 'overcast', false, '', '', [lightRain, grayClouds], [coldClimate])
+        case 'overcastDrizzle': return effectCondition = new Effect(effectName, 'overcast', false, '', '', [lightRain, grayClouds], [])
+        case 'overcastSnow': return effectCondition = new Effect(effectName, 'freezingCold', false, '', '', [lightSnow, snowClouds], [coldClimate])
         case 'drought': return effectCondition = new Effect(effectName, '', false, '', '', [], [])
     }
 }

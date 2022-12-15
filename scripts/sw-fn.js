@@ -20,6 +20,7 @@ export async function checkWeatherSW(effectName) {
 
 async function createWeatherEffect(weather) {
     const effectName = weather.weatherStr
+    const effectChatMessage = weather.effect[1] || weather.effect[0]
     const precipitation = inToMm(weather.precip)
     const isSnow = weather.effect.some(str => str === "lightSnow" || str === "moderateSnow" || str === "heavySnow" || str === "blizzard");
     let soundName = '', hasSound = false, particles = [], filters = [], rainScale, rainSpeed = 1
@@ -78,8 +79,10 @@ async function createWeatherEffect(weather) {
     if (!setCloudShadows) particles.push(clouds)
     else particles.push(cloudShadows)
 
-    if (weather.cloudcover > 90 /* && !setCloudShadows */)
-        filters.push(overcast)
+    // await overcastIllumination(weather.cloudcover/2)
+
+    // if (weather.cloudcover > 90 /* && !setCloudShadows */)
+    //     filters.push(overcast)
 
     if (precipitation <= 4) {
         rainScale = (precipitation / 2)
@@ -119,13 +122,13 @@ async function createWeatherEffect(weather) {
             "direction": rainAngle(adjustAngle(weather.winddir - 90)),
             "speed": rainSpeed.toFixed(2),
             "lifetime": 1,
-            "density": (rainScale + 0.1).toFixed(2), // 1,
+            "density": (rainScale * 0.1 + 1).toFixed(2), // 1,
             "tint": { "apply": false, "value": "#ffffff" }
         }
     }
     const snowFlake = {
         "type": "snow", "options": {
-            "scale": 1,
+            "scale": 0.5,
             "direction": parseInt(adjustAngle(weather.winddir - 90)),
             "speed": convertWindSpeed(weather.windspeed).toFixed(2), // força do vento
             "lifetime": 0.1,
@@ -174,7 +177,7 @@ async function createWeatherEffect(weather) {
     - Intense snow: Intense snow is a type of precipitation that typically falls at a rate of 15.0-30.0 mm/h. This type of snow is generally considered to be very heavy and can cause significant problems such as road closures and power outages.
     */
 
-    let effectCondition = new Effect(effectName, effectName, hasSound, soundName, soundName, particles, filters)
+    let effectCondition = new Effect(effectName, effectChatMessage, hasSound, soundName, soundName, particles, filters)
 
     await weatherEffects(effectCondition)
 
@@ -216,4 +219,23 @@ function rainAngle(deg) {
 
 function degToRad(deg) {
     return deg * (Math.PI / 180)
+}
+
+async function overcastIllumination(cloudCover) {
+    const currentScene = canvas.scene
+    let overcast = cloudCover / 100 // The percentage reduction in the amount of light.
+    let darknessValue = canvas.lighting.darknessLevel + overcast
+
+    if (darknessValue > 1) darknessValue = 1
+
+    // await currentScene.update({ darkness: darknessValue });
+
+    if (game.user.isGM) {
+        await currentScene.update({ darkness: darknessValue });
+    } else {
+        SmallTimeApp.emitSocket('changeDarkness', {
+            darkness: darknessValue,
+            sceneID: currentScene.id,
+        });
+    }
 }

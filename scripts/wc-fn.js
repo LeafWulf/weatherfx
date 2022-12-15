@@ -27,8 +27,9 @@ export async function weatherControlHooks() {
                 if (message.speaker.alias == todaysWeather) {
                     let precipitation = removeTemperature(message.content)
                     await game.settings.set(MODULE, "currentWeather", precipitation);
-                    if (autoApply & sceneAutoApply)
-                        checkWeather(precipitation)
+                    if (!linkWeatherToGI || canvas.scene.globalLight)
+                        if (autoApply & sceneAutoApply)
+                            checkWeather(precipitation)
                 }
             }
         });

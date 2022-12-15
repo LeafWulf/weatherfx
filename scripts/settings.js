@@ -10,6 +10,7 @@ export let debug = false
 export let topDownRain = true
 export let instantApply = false
 export let setCloudShadows = false
+export let linkWeatherToGI = false
 
 export let weatherSource = 'weather-control'
 
@@ -85,6 +86,19 @@ export function registerSettings() {
         config: true,
         type: Boolean,
         default: setCloudShadows,
+        restricted: true,
+        onChange: () => {
+            cacheSettings();
+        },
+    });
+
+    game.settings.register(MODULE, 'linkWeatherToGI', {
+        name: 'Link Weather to Global Illumination',
+        hint: `A map that has Global Illumination on is considered outdoor map and WeatherFX applies to it. Maps without Global Illumination are considered indoor maps and Weather FX is not applied to them.`,
+        scope: 'world',
+        config: true,
+        type: Boolean,
+        default: linkWeatherToGI,
         restricted: true,
         onChange: () => {
             cacheSettings();
@@ -232,4 +246,5 @@ export function cacheSettings() {
     debug = game.settings.get(MODULE, 'debug');
     topDownRain = game.settings.get(MODULE, 'topDownRain');
     setCloudShadows = game.settings.get(MODULE, 'setCloudShadows');
+    linkWeatherToGI = game.settings.get(MODULE, 'linkWeatherToGI');
 }
